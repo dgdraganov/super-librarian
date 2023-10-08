@@ -4,6 +4,7 @@ services:
   db:
     image: mysql:8.1.0
     restart: always
+    container_name: mysql_db
     environment:
       MYSQL_DATABASE: 'library'
       MYSQL_USER: 'docker'
