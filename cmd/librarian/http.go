@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	books "github.com/dgdraganov/super-librarian/gen/books"
-	bookssvr "github.com/dgdraganov/super-librarian/gen/http/books/server"
+	librariansvr "github.com/dgdraganov/super-librarian/gen/http/librarian/server"
+	librarian "github.com/dgdraganov/super-librarian/gen/librarian"
 	goahttp "goa.design/goa/v3/http"
 	httpmdlwr "goa.design/goa/v3/http/middleware"
 	"goa.design/goa/v3/middleware"
@@ -18,7 +18,7 @@ import (
 
 // handleHTTPServer starts configures and starts a HTTP server on the given
 // URL. It shuts down the server if any error is received in the error channel.
-func handleHTTPServer(ctx context.Context, u *url.URL, booksEndpoints *books.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
+func handleHTTPServer(ctx context.Context, u *url.URL, librarianEndpoints *librarian.Endpoints, wg *sync.WaitGroup, errc chan error, logger *log.Logger, debug bool) {
 
 	// Setup goa log adapter.
 	var (
@@ -49,20 +49,20 @@ func handleHTTPServer(ctx context.Context, u *url.URL, booksEndpoints *books.End
 	// the service input and output data structures to HTTP requests and
 	// responses.
 	var (
-		booksServer *bookssvr.Server
+		librarianServer *librariansvr.Server
 	)
 	{
 		eh := errorHandler(logger)
-		booksServer = bookssvr.New(booksEndpoints, mux, dec, enc, eh, nil, nil)
+		librarianServer = librariansvr.New(librarianEndpoints, mux, dec, enc, eh, nil, nil)
 		if debug {
 			servers := goahttp.Servers{
-				booksServer,
+				librarianServer,
 			}
 			servers.Use(httpmdlwr.Debug(mux, os.Stdout))
 		}
 	}
 	// Configure the mux.
-	bookssvr.Mount(mux, booksServer)
+	librariansvr.Mount(mux, librarianServer)
 
 	// Wrap the multiplexer with additional middlewares. Middlewares mounted
 	// here apply to all the service endpoints.
@@ -75,7 +75,7 @@ func handleHTTPServer(ctx context.Context, u *url.URL, booksEndpoints *books.End
 	// Start HTTP server using default configuration, change the code to
 	// configure the server as required by your service.
 	srv := &http.Server{Addr: u.Host, Handler: handler, ReadHeaderTimeout: time.Second * 60}
-	for _, m := range booksServer.Mounts {
+	for _, m := range librarianServer.Mounts {
 		logger.Printf("HTTP %q mounted on %s %s", m.Method, m.Verb, m.Pattern)
 	}
 

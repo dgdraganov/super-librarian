@@ -13,7 +13,7 @@ import (
 	"net/http"
 	"os"
 
-	booksc "github.com/dgdraganov/super-librarian/gen/http/books/client"
+	librarianc "github.com/dgdraganov/super-librarian/gen/http/librarian/client"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )
@@ -22,13 +22,13 @@ import (
 //
 //	command (subcommand1|subcommand2|...)
 func UsageCommands() string {
-	return `books (get-book|get-books|create-book|update-book|delete-book)
+	return `librarian (get-book|get-books|create-book|update-book|delete-book)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` books get-book --id 3320939167265847530` + "\n" +
+	return os.Args[0] + ` librarian get-book --id 1128970373747957694` + "\n" +
 		""
 }
 
@@ -42,30 +42,30 @@ func ParseEndpoint(
 	restore bool,
 ) (goa.Endpoint, any, error) {
 	var (
-		booksFlags = flag.NewFlagSet("books", flag.ContinueOnError)
+		librarianFlags = flag.NewFlagSet("librarian", flag.ContinueOnError)
 
-		booksGetBookFlags  = flag.NewFlagSet("get-book", flag.ExitOnError)
-		booksGetBookIDFlag = booksGetBookFlags.String("id", "REQUIRED", "Book id")
+		librarianGetBookFlags  = flag.NewFlagSet("get-book", flag.ExitOnError)
+		librarianGetBookIDFlag = librarianGetBookFlags.String("id", "REQUIRED", "Book id")
 
-		booksGetBooksFlags    = flag.NewFlagSet("get-books", flag.ExitOnError)
-		booksGetBooksSkipFlag = booksGetBooksFlags.String("skip", "REQUIRED", "Number of books to skip")
-		booksGetBooksTakeFlag = booksGetBooksFlags.String("take", "REQUIRED", "Number of books to take after skip")
+		librarianGetBooksFlags    = flag.NewFlagSet("get-books", flag.ExitOnError)
+		librarianGetBooksSkipFlag = librarianGetBooksFlags.String("skip", "REQUIRED", "Number of books to skip")
+		librarianGetBooksTakeFlag = librarianGetBooksFlags.String("take", "REQUIRED", "Number of books to take after skip")
 
-		booksCreateBookFlags    = flag.NewFlagSet("create-book", flag.ExitOnError)
-		booksCreateBookBodyFlag = booksCreateBookFlags.String("body", "REQUIRED", "")
+		librarianCreateBookFlags    = flag.NewFlagSet("create-book", flag.ExitOnError)
+		librarianCreateBookBodyFlag = librarianCreateBookFlags.String("body", "REQUIRED", "")
 
-		booksUpdateBookFlags    = flag.NewFlagSet("update-book", flag.ExitOnError)
-		booksUpdateBookBodyFlag = booksUpdateBookFlags.String("body", "REQUIRED", "")
+		librarianUpdateBookFlags    = flag.NewFlagSet("update-book", flag.ExitOnError)
+		librarianUpdateBookBodyFlag = librarianUpdateBookFlags.String("body", "REQUIRED", "")
 
-		booksDeleteBookFlags  = flag.NewFlagSet("delete-book", flag.ExitOnError)
-		booksDeleteBookIDFlag = booksDeleteBookFlags.String("id", "REQUIRED", "Book id")
+		librarianDeleteBookFlags  = flag.NewFlagSet("delete-book", flag.ExitOnError)
+		librarianDeleteBookIDFlag = librarianDeleteBookFlags.String("id", "REQUIRED", "Book id")
 	)
-	booksFlags.Usage = booksUsage
-	booksGetBookFlags.Usage = booksGetBookUsage
-	booksGetBooksFlags.Usage = booksGetBooksUsage
-	booksCreateBookFlags.Usage = booksCreateBookUsage
-	booksUpdateBookFlags.Usage = booksUpdateBookUsage
-	booksDeleteBookFlags.Usage = booksDeleteBookUsage
+	librarianFlags.Usage = librarianUsage
+	librarianGetBookFlags.Usage = librarianGetBookUsage
+	librarianGetBooksFlags.Usage = librarianGetBooksUsage
+	librarianCreateBookFlags.Usage = librarianCreateBookUsage
+	librarianUpdateBookFlags.Usage = librarianUpdateBookUsage
+	librarianDeleteBookFlags.Usage = librarianDeleteBookUsage
 
 	if err := flag.CommandLine.Parse(os.Args[1:]); err != nil {
 		return nil, nil, err
@@ -82,8 +82,8 @@ func ParseEndpoint(
 	{
 		svcn = flag.Arg(0)
 		switch svcn {
-		case "books":
-			svcf = booksFlags
+		case "librarian":
+			svcf = librarianFlags
 		default:
 			return nil, nil, fmt.Errorf("unknown service %q", svcn)
 		}
@@ -99,22 +99,22 @@ func ParseEndpoint(
 	{
 		epn = svcf.Arg(0)
 		switch svcn {
-		case "books":
+		case "librarian":
 			switch epn {
 			case "get-book":
-				epf = booksGetBookFlags
+				epf = librarianGetBookFlags
 
 			case "get-books":
-				epf = booksGetBooksFlags
+				epf = librarianGetBooksFlags
 
 			case "create-book":
-				epf = booksCreateBookFlags
+				epf = librarianCreateBookFlags
 
 			case "update-book":
-				epf = booksUpdateBookFlags
+				epf = librarianUpdateBookFlags
 
 			case "delete-book":
-				epf = booksDeleteBookFlags
+				epf = librarianDeleteBookFlags
 
 			}
 
@@ -138,24 +138,24 @@ func ParseEndpoint(
 	)
 	{
 		switch svcn {
-		case "books":
-			c := booksc.NewClient(scheme, host, doer, enc, dec, restore)
+		case "librarian":
+			c := librarianc.NewClient(scheme, host, doer, enc, dec, restore)
 			switch epn {
 			case "get-book":
 				endpoint = c.GetBook()
-				data, err = booksc.BuildGetBookPayload(*booksGetBookIDFlag)
+				data, err = librarianc.BuildGetBookPayload(*librarianGetBookIDFlag)
 			case "get-books":
 				endpoint = c.GetBooks()
-				data, err = booksc.BuildGetBooksPayload(*booksGetBooksSkipFlag, *booksGetBooksTakeFlag)
+				data, err = librarianc.BuildGetBooksPayload(*librarianGetBooksSkipFlag, *librarianGetBooksTakeFlag)
 			case "create-book":
 				endpoint = c.CreateBook()
-				data, err = booksc.BuildCreateBookPayload(*booksCreateBookBodyFlag)
+				data, err = librarianc.BuildCreateBookPayload(*librarianCreateBookBodyFlag)
 			case "update-book":
 				endpoint = c.UpdateBook()
-				data, err = booksc.BuildUpdateBookPayload(*booksUpdateBookBodyFlag)
+				data, err = librarianc.BuildUpdateBookPayload(*librarianUpdateBookBodyFlag)
 			case "delete-book":
 				endpoint = c.DeleteBook()
-				data, err = booksc.BuildDeleteBookPayload(*booksDeleteBookIDFlag)
+				data, err = librarianc.BuildDeleteBookPayload(*librarianDeleteBookIDFlag)
 			}
 		}
 	}
@@ -166,11 +166,12 @@ func ParseEndpoint(
 	return endpoint, data, nil
 }
 
-// booksUsage displays the usage of the books command and its subcommands.
-func booksUsage() {
+// librarianUsage displays the usage of the librarian command and its
+// subcommands.
+func librarianUsage() {
 	fmt.Fprintf(os.Stderr, `The books service performs CRUD operations on books.
 Usage:
-    %[1]s [globalflags] books COMMAND [flags]
+    %[1]s [globalflags] librarian COMMAND [flags]
 
 COMMAND:
     get-book: Retrieve a book by id.
@@ -180,72 +181,72 @@ COMMAND:
     delete-book: Delete a single book.
 
 Additional help:
-    %[1]s books COMMAND --help
+    %[1]s librarian COMMAND --help
 `, os.Args[0])
 }
-func booksGetBookUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] books get-book -id INT
+func librarianGetBookUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian get-book -id INT
 
 Retrieve a book by id.
     -id INT: Book id
 
 Example:
-    %[1]s books get-book --id 3320939167265847530
+    %[1]s librarian get-book --id 1128970373747957694
 `, os.Args[0])
 }
 
-func booksGetBooksUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] books get-books -skip INT -take INT
+func librarianGetBooksUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian get-books -skip INT -take INT
 
 Get paginated books by specifying the number of books to skip and take.
     -skip INT: Number of books to skip
     -take INT: Number of books to take after skip
 
 Example:
-    %[1]s books get-books --skip 8921519650650740831 --take 8384150947811087024
+    %[1]s librarian get-books --skip 1560156484854602529 --take 7825010768422407406
 `, os.Args[0])
 }
 
-func booksCreateBookUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] books create-book -body JSON
+func librarianCreateBookUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian create-book -body JSON
 
 Create a single book.
     -body JSON: 
 
 Example:
-    %[1]s books create-book --body '{
-      "author": "gtu",
-      "book_cover": "49g",
-      "published_at": "2009-04-11",
-      "title": "yb"
+    %[1]s librarian create-book --body '{
+      "author": "17n",
+      "book_cover": "l8z",
+      "published_at": "2000-04-18",
+      "title": "e0"
    }'
 `, os.Args[0])
 }
 
-func booksUpdateBookUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] books update-book -body JSON
+func librarianUpdateBookUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian update-book -body JSON
 
 Updates a book by the given id.
     -body JSON: 
 
 Example:
-    %[1]s books update-book --body '{
-      "author": "67b",
-      "book_cover": "995",
-      "id": 4031548831220571457,
-      "published_at": "1993-10-28",
-      "title": "0j"
+    %[1]s librarian update-book --body '{
+      "author": "iuw",
+      "book_cover": "zpu",
+      "id": 1824628676797947605,
+      "published_at": "1971-03-27",
+      "title": "p"
    }'
 `, os.Args[0])
 }
 
-func booksDeleteBookUsage() {
-	fmt.Fprintf(os.Stderr, `%[1]s [flags] books delete-book -id INT
+func librarianDeleteBookUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian delete-book -id INT
 
 Delete a single book.
     -id INT: Book id
 
 Example:
-    %[1]s books delete-book --id 461695706767255517
+    %[1]s librarian delete-book --id 3768971979315361382
 `, os.Args[0])
 }

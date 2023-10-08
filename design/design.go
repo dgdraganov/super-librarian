@@ -4,17 +4,17 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
-var _ = API("books", func() {
+var _ = API("librarian", func() {
 	Title("Books Service")
 	Description("Service for managing Books with CRUD operations.")
-	Server("books", func() {
+	Server("librarian", func() {
 		Host("localhost", func() {
 			URI("http://localhost:8000")
 		})
 	})
 })
 
-var _ = Service("books", func() {
+var _ = Service("librarian", func() {
 	Description("The books service performs CRUD operations on books.")
 
 	// get a single book

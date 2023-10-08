@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	cli "github.com/dgdraganov/super-librarian/gen/http/cli/books"
+	cli "github.com/dgdraganov/super-librarian/gen/http/cli/librarian"
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"
 )

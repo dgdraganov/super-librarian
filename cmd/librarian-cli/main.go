@@ -92,7 +92,7 @@ func main() {
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, `%s is a command line client for the books API.
+	fmt.Fprintf(os.Stderr, `%s is a command line client for the librarian API.
 
 Usage:
     %s [-host HOST][-url URL][-timeout SECONDS][-verbose|-v] SERVICE ENDPOINT [flags]

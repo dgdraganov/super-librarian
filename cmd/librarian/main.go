@@ -12,8 +12,8 @@ import (
 	"sync"
 	"syscall"
 
-	booksapi "github.com/dgdraganov/super-librarian"
-	books "github.com/dgdraganov/super-librarian/gen/books"
+	librarianapi "github.com/dgdraganov/super-librarian"
+	librarian "github.com/dgdraganov/super-librarian/gen/librarian"
 )
 
 func main() {
@@ -33,24 +33,24 @@ func main() {
 		logger *log.Logger
 	)
 	{
-		logger = log.New(os.Stderr, "[booksapi] ", log.Ltime)
+		logger = log.New(os.Stderr, "[librarianapi] ", log.Ltime)
 	}
 
 	// Initialize the services.
 	var (
-		booksSvc books.Service
+		librarianSvc librarian.Service
 	)
 	{
-		booksSvc = booksapi.NewBooks(logger)
+		librarianSvc = librarianapi.NewLibrarian(logger)
 	}
 
 	// Wrap the services in endpoints that can be invoked from other services
 	// potentially running in different processes.
 	var (
-		booksEndpoints *books.Endpoints
+		librarianEndpoints *librarian.Endpoints
 	)
 	{
-		booksEndpoints = books.NewEndpoints(booksSvc)
+		librarianEndpoints = librarian.NewEndpoints(librarianSvc)
 	}
 
 	// Create channel used by both the signal handler and server goroutines
@@ -92,7 +92,7 @@ func main() {
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "80")
 			}
-			handleHTTPServer(ctx, u, booksEndpoints, &wg, errc, logger, *dbgF)
+			handleHTTPServer(ctx, u, librarianEndpoints, &wg, errc, logger, *dbgF)
 		}
 
 	default:
