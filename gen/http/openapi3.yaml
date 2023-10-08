@@ -1,0 +1,439 @@
+openapi: 3.0.3
+info:
+    title: Books Service
+    description: Service for managing Books with CRUD operations.
+    version: "1.0"
+servers:
+    - url: http://localhost:8000
+paths:
+    /book:
+        patch:
+            tags:
+                - books
+            summary: update-book books
+            description: Updates a book by the given id.
+            operationId: books#update-book
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Book'
+                        example:
+                            author: 67b
+                            book_cover: "995"
+                            id: 4031548831220571457
+                            published_at: "1993-10-28"
+                            title: 0j
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Updatebookresponse'
+                            example:
+                                author: Qui tenetur.
+                                book_cover: Exercitationem reiciendis omnis eos quia nesciunt aperiam.
+                                id: 2553609665102760535
+                                published_at: Eligendi porro.
+                                title: Dolore culpa.
+        post:
+            tags:
+                - books
+            summary: create-book books
+            description: Create a single book.
+            operationId: books#create-book
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateBookRequestBody'
+                        example:
+                            author: gtu
+                            book_cover: 49g
+                            published_at: "2009-04-11"
+                            title: yb
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Createbookresponse'
+                            example:
+                                author: Quos praesentium sed nihil fugit minima.
+                                book_cover: Consequatur non cupiditate consectetur architecto aut.
+                                id: 8478453919163377933
+                                published_at: Quis distinctio labore optio incidunt.
+                                title: Voluptate velit ratione sint.
+    /book/{id}:
+        delete:
+            tags:
+                - books
+            summary: delete-book books
+            description: Delete a single book.
+            operationId: books#delete-book
+            parameters:
+                - name: id
+                  in: path
+                  description: Book id
+                  required: true
+                  schema:
+                    type: integer
+                    description: Book id
+                    example: 4086314759663416377
+                    format: int64
+                  example: 5852282697764921038
+            responses:
+                "204":
+                    description: No Content response.
+        get:
+            tags:
+                - books
+            summary: get-book books
+            description: Retrieve a book by id.
+            operationId: books#get-book
+            parameters:
+                - name: id
+                  in: path
+                  description: Book id
+                  required: true
+                  schema:
+                    type: integer
+                    description: Book id
+                    example: 746482176081105405
+                    format: int64
+                  example: 5605191955848598928
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Getbookresponse'
+                            example:
+                                author: Et qui.
+                                book_cover: Voluptatem sit quasi.
+                                id: 8251783029889772279
+                                published_at: Nemo praesentium dolorem et vitae sunt a.
+                                title: Amet provident velit voluptate.
+    /books/{skip}/{take}:
+        get:
+            tags:
+                - books
+            summary: get-books books
+            description: Get paginated books by specifying the number of books to skip and take.
+            operationId: books#get-books
+            parameters:
+                - name: skip
+                  in: path
+                  description: Number of books to skip
+                  required: true
+                  schema:
+                    type: integer
+                    description: Number of books to skip
+                    example: 115737871471585002
+                    format: int64
+                  example: 6672850609617795628
+                - name: take
+                  in: path
+                  description: Number of books to take after skip
+                  required: true
+                  schema:
+                    type: integer
+                    description: Number of books to take after skip
+                    example: 8684208710387906948
+                    format: int64
+                  example: 8387825715192837503
+            responses:
+                "200":
+                    description: OK response.
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Getbooksresponse'
+                            example:
+                                books:
+                                    - author: Sed porro in.
+                                      book_cover: Dolor sed quo porro aut natus magni.
+                                      id: 7194269075373636044
+                                      published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                                      title: Sint accusamus rerum omnis.
+                                    - author: Sed porro in.
+                                      book_cover: Dolor sed quo porro aut natus magni.
+                                      id: 7194269075373636044
+                                      published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                                      title: Sint accusamus rerum omnis.
+    /openapi.json:
+        get:
+            tags:
+                - books
+            summary: Download ./gen/http/openapi.json
+            operationId: books#/openapi.json
+            responses:
+                "200":
+                    description: File downloaded
+components:
+    schemas:
+        Book:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: wzp
+                    minLength: 3
+                    maxLength: 50
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: rt3
+                    minLength: 15
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 9100767911504732192
+                    minimum: 1
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: "1992-10-19"
+                    format: date
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: "6"
+                    minLength: 1
+                    maxLength: 100
+            example:
+                author: r9b
+                book_cover: l45
+                id: 2209043528918673141
+                published_at: "1978-03-02"
+                title: i
+        CreateBookRequestBody:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: gxr
+                    minLength: 3
+                    maxLength: 50
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: aw5
+                    minLength: 15
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: "1976-06-24"
+                    format: date
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: "3"
+                    minLength: 1
+                    maxLength: 100
+            example:
+                author: ynw
+                book_cover: 31g
+                published_at: "1985-02-23"
+                title: p
+            required:
+                - title
+                - author
+                - book_cover
+                - published_at
+        Createbookresponse:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: Voluptatum voluptas.
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: Beatae voluptas veniam eaque quia.
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 5682810521872277360
+                    format: int64
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: Porro sed et est odio itaque.
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: Consequuntur minus tenetur non mollitia quae.
+            example:
+                author: Doloremque explicabo asperiores nulla dolor minima.
+                book_cover: Aut mollitia eum.
+                id: 5300185135308136680
+                published_at: Aperiam qui debitis illum distinctio expedita.
+                title: Nihil ea mollitia ut.
+            required:
+                - id
+                - title
+                - book_cover
+                - author
+                - published_at
+        Getbookresponse:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: Accusantium aut delectus.
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: Quae maxime esse.
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 2837471865314110361
+                    format: int64
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: Iusto aut iure nisi sed fugit.
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: Vel voluptas nihil repellendus similique.
+            example:
+                author: Voluptatem voluptatum praesentium eum.
+                book_cover: Sed doloremque necessitatibus deserunt explicabo molestiae.
+                id: 6835627384830003088
+                published_at: Nobis eligendi eius molestias sit.
+                title: Totam aut distinctio cum quia rerum.
+            required:
+                - id
+                - title
+                - book_cover
+                - author
+                - published_at
+        Getbooksresponse:
+            type: object
+            properties:
+                books:
+                    $ref: '#/components/schemas/ResultbookCollection'
+            example:
+                books:
+                    - author: Sed porro in.
+                      book_cover: Dolor sed quo porro aut natus magni.
+                      id: 7194269075373636044
+                      published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                      title: Sint accusamus rerum omnis.
+                    - author: Sed porro in.
+                      book_cover: Dolor sed quo porro aut natus magni.
+                      id: 7194269075373636044
+                      published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                      title: Sint accusamus rerum omnis.
+        Resultbook:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: Et ipsum consequatur nihil voluptas.
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: Nostrum harum quae.
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 2206322200974669433
+                    format: int64
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: Quia blanditiis qui aut quis eos.
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: Et in.
+            example:
+                author: Qui ea.
+                book_cover: Ut enim.
+                id: 2191105429358594506
+                published_at: Nemo enim reprehenderit sed id in.
+                title: Quis vel quae et deserunt ut.
+            required:
+                - id
+                - title
+                - book_cover
+                - author
+                - published_at
+        ResultbookCollection:
+            type: array
+            items:
+                $ref: '#/components/schemas/Resultbook'
+            example:
+                - author: Sed porro in.
+                  book_cover: Dolor sed quo porro aut natus magni.
+                  id: 7194269075373636044
+                  published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                  title: Sint accusamus rerum omnis.
+                - author: Sed porro in.
+                  book_cover: Dolor sed quo porro aut natus magni.
+                  id: 7194269075373636044
+                  published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                  title: Sint accusamus rerum omnis.
+                - author: Sed porro in.
+                  book_cover: Dolor sed quo porro aut natus magni.
+                  id: 7194269075373636044
+                  published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                  title: Sint accusamus rerum omnis.
+                - author: Sed porro in.
+                  book_cover: Dolor sed quo porro aut natus magni.
+                  id: 7194269075373636044
+                  published_at: Non fuga in velit quaerat quaerat voluptatibus.
+                  title: Sint accusamus rerum omnis.
+        Updatebookresponse:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: Velit autem necessitatibus iure consequuntur sunt.
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: Voluptas vitae omnis repellendus quo corporis.
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 3545599293910288790
+                    format: int64
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: Repellat ipsa enim quas et.
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: Ab et quae laboriosam.
+            example:
+                author: Fuga nulla maiores rem aut.
+                book_cover: Eligendi illo quo saepe optio quidem.
+                id: 3570404175441436862
+                published_at: Veniam sint laborum voluptas.
+                title: Aut et numquam ut veniam ut.
+            required:
+                - id
+                - title
+                - book_cover
+                - author
+                - published_at
+tags:
+    - name: books
+      description: The books service performs CRUD operations on books.
