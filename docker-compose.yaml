@@ -16,5 +16,17 @@ services:
       - '3306'
     volumes:
       - my-db:/var/lib/mysql
+  librarian:   
+    container_name: librarian
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9205:9205" 
+    restart: unless-stopped
+    env_file:
+      - dev.env
+    depends_on:
+      - db
 volumes:
   my-db:
