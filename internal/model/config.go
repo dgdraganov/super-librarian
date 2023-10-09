@@ -1,17 +1,16 @@
 package model
 
-type AppConfig struct {
+type ServiceConfig struct {
 	AppEnv   string
 	Host     string
-	Domain   string
 	HttpPort string
-	Secure   string
+	MySqlConfig
 }
 
 type MySqlConfig struct {
 	Username string
 	Password string
-	Database string
 	Host     string
 	Port     string
+	DbName   string
 }
