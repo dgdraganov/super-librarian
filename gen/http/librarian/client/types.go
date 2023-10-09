@@ -32,13 +32,13 @@ type UpdateBookRequestBody struct {
 	// The unique id of the book.
 	ID *int `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
 	// The title of the book.
-	Title *string `form:"title,omitempty" json:"title,omitempty" xml:"title,omitempty"`
+	Title string `form:"title" json:"title" xml:"title"`
 	// The author of the book.
-	Author *string `form:"author,omitempty" json:"author,omitempty" xml:"author,omitempty"`
+	Author string `form:"author" json:"author" xml:"author"`
 	// The cover image of the book.
-	BookCover *string `form:"book_cover,omitempty" json:"book_cover,omitempty" xml:"book_cover,omitempty"`
+	BookCover string `form:"book_cover" json:"book_cover" xml:"book_cover"`
 	// The date at which the book was published.
-	PublishedAt *string `form:"published_at,omitempty" json:"published_at,omitempty" xml:"published_at,omitempty"`
+	PublishedAt string `form:"published_at" json:"published_at" xml:"published_at"`
 }
 
 // GetBookResponseBody is the type of the "librarian" service "get-book"
@@ -128,10 +128,10 @@ func NewCreateBookRequestBody(p *librarian.CreateBookPayload) *CreateBookRequest
 func NewUpdateBookRequestBody(p *librarian.UpdateBookPayload) *UpdateBookRequestBody {
 	body := &UpdateBookRequestBody{
 		ID:          p.ID,
-		Title:       &p.Title,
-		Author:      &p.Author,
-		BookCover:   &p.BookCover,
-		PublishedAt: &p.PublishedAt,
+		Title:       p.Title,
+		Author:      p.Author,
+		BookCover:   p.BookCover,
+		PublishedAt: p.PublishedAt,
 	}
 	return body
 }

@@ -69,7 +69,7 @@ var _ = Service("librarian", func() {
 
 		HTTP(func() {
 			PATCH("/book")
-			Body(Book)
+			// Body(Book)
 		})
 	})
 

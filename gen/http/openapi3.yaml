@@ -18,7 +18,7 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Book'
+                            $ref: '#/components/schemas/UpdateBookRequestBody'
                         example:
                             author: iuw
                             book_cover: zpu
@@ -177,42 +177,6 @@ paths:
                     description: File downloaded
 components:
     schemas:
-        Book:
-            type: object
-            properties:
-                author:
-                    type: string
-                    description: The author of the book.
-                    example: 2o1
-                    minLength: 3
-                    maxLength: 50
-                book_cover:
-                    type: string
-                    description: The cover image of the book.
-                    example: n47
-                    minLength: 15
-                id:
-                    type: integer
-                    description: The unique id of the book.
-                    example: 5892321535792198473
-                    minimum: 1
-                published_at:
-                    type: string
-                    description: The date at which the book was published.
-                    example: "2005-09-30"
-                    format: date
-                title:
-                    type: string
-                    description: The title of the book.
-                    example: one
-                    minLength: 1
-                    maxLength: 100
-            example:
-                author: u72
-                book_cover: zbu
-                id: 2931995100242306161
-                published_at: "2007-07-11"
-                title: juj
         CreateBookRequestBody:
             type: object
             properties:
@@ -221,12 +185,13 @@ components:
                     description: The author of the book.
                     example: 2eg
                     minLength: 3
-                    maxLength: 50
+                    maxLength: 100
                 book_cover:
                     type: string
                     description: The cover image of the book.
                     example: zw9
                     minLength: 15
+                    maxLength: 1024
                 published_at:
                     type: string
                     description: The date at which the book was published.
@@ -237,7 +202,7 @@ components:
                     description: The title of the book.
                     example: vwg
                     minLength: 1
-                    maxLength: 100
+                    maxLength: 255
             example:
                 author: mep
                 book_cover: 3gi
@@ -393,6 +358,48 @@ components:
                   id: 3171323111833809843
                   published_at: Ratione sapiente et provident dolorum amet labore.
                   title: Et cumque velit ut quo ut.
+        UpdateBookRequestBody:
+            type: object
+            properties:
+                author:
+                    type: string
+                    description: The author of the book.
+                    example: 2o1
+                    minLength: 3
+                    maxLength: 100
+                book_cover:
+                    type: string
+                    description: The cover image of the book.
+                    example: n47
+                    minLength: 15
+                    maxLength: 1024
+                id:
+                    type: integer
+                    description: The unique id of the book.
+                    example: 5892321535792198473
+                    minimum: 1
+                published_at:
+                    type: string
+                    description: The date at which the book was published.
+                    example: "2005-09-30"
+                    format: date
+                title:
+                    type: string
+                    description: The title of the book.
+                    example: one
+                    minLength: 1
+                    maxLength: 255
+            example:
+                author: u72
+                book_cover: zbu
+                id: 2931995100242306161
+                published_at: "2007-07-11"
+                title: juj
+            required:
+                - title
+                - author
+                - book_cover
+                - published_at
         Updatebookresponse:
             type: object
             properties:
