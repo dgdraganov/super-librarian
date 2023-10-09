@@ -1,11 +1,11 @@
 
 
 CREATE TABLE Books (
-    ID int NOT NULL,
-    Author varchar(100) NOT NULL,
-    Title varchar(255) NOT NULL,
-    BookCover varchar(1024) NOT NULL,
-    PublishedAt DATE NOT NULL,
-    PRIMARY KEY (ID)
+    id int NOT NULL,
+    author varchar(100) NOT NULL,
+    title varchar(255) NOT NULL,
+    bookCover varchar(1024) NOT NULL,
+    publishedAt DATE NOT NULL,
+    PRIMARY KEY (id)
 );
 

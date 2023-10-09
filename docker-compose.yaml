@@ -28,5 +28,15 @@ services:
       - dev.env
     depends_on:
       - db
+  migrator:   
+    container_name: migrator
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["/bin/migrator"]
+    env_file:
+      - dev.env
+    depends_on:
+      - db
 volumes:
   my-db:

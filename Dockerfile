@@ -1,20 +1,21 @@
 
 FROM golang:1.21 AS build 
 
-WORKDIR /librarian
+WORKDIR /app
 
 COPY . .
 
-RUN go mod download
-RUN go build -o /librarian/app cmd/librarian/main.go
-
+# RUN go mod download
+RUN go build -o ./bin/librarian cmd/librarian/* \
+ && go build -o ./bin/migrator cmd/migrator/*
 
 FROM ubuntu:22.04
 
-WORKDIR /librarian
+WORKDIR /bin
 
-# todo: add certificates
-COPY --from=build /librarian/app /librarian/app
+COPY --from=build /app/bin/librarian ./librarian
+COPY --from=build /app/bin/migrator ./migrator
+COPY --from=build /app/internal/migrations ./migrations
 
 EXPOSE 9205
-CMD ["/librarian/app"]
+CMD ["/bin/librarian"]

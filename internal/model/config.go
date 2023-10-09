@@ -4,7 +4,6 @@ type ServiceConfig struct {
 	AppEnv   string
 	Host     string
 	HttpPort string
-	MySqlConfig
 }
 
 type MySqlConfig struct {
