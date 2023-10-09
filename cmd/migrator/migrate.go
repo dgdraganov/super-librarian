@@ -43,5 +43,5 @@ func main() {
 		panic(fmt.Errorf("new databse instance: %w", err))
 	}
 
-	m.Steps(1)
+	m.Up()
 }
