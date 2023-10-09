@@ -22,7 +22,7 @@ func NewLibraryRepository(config *model.MySqlConfig) *libraryRepository {
 		config.Password,
 		config.Host,
 		config.Port,
-		config.Database,
+		config.DbName,
 	)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
