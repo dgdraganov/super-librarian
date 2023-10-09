@@ -35,7 +35,7 @@ func NewLibraryRepository(config *model.MySqlConfig) *libraryRepository {
 }
 
 // Ping the database
-func (repo *libraryRepository) Ping() error {
+func (repo *libraryRepository) Ping(ctx context.Context) error {
 	err := repo.db.Ping()
 	if err != nil {
 		return fmt.Errorf("db ping: %w", err)
@@ -50,10 +50,11 @@ func (repo *libraryRepository) GetBook(ctx context.Context, id int) (model.Book,
 								  from Books
 								  where id = ?`)
 	if err != nil {
-		return model.Book{}, fmt.Errorf("db prepare stmt: %w", err)
+		return model.Book{}, fmt.Errorf("db prepare statement: %w", err)
 	}
 	defer stmt.Close()
 	row := stmt.QueryRowContext(ctx, id)
+
 	book := model.Book{}
 	if err := row.Scan(&book); err != nil {
 		return model.Book{}, fmt.Errorf("row scan: %w", err)
@@ -62,7 +63,30 @@ func (repo *libraryRepository) GetBook(ctx context.Context, id int) (model.Book,
 	return book, nil
 }
 
+func (repo *libraryRepository) CreateBook(ctx context.Context, book model.Book) (model.Book, error) {
+	stmt, err := repo.db.Prepare("INSERT INTO Books(title, author, bookCover, publishedAt) VALUES(?, ?, ?, ?)")
+	if err != nil {
+		return model.Book{}, fmt.Errorf("db prepare statement: %w", err)
+	}
+	res, err := stmt.Exec(book.Title, book.Author, book.BookCover, book.PublishedAt)
+	if err != nil {
+		return model.Book{}, fmt.Errorf("execute statement: %w", err)
+	}
+	lastId, err := res.LastInsertId()
+	if err != nil {
+		return model.Book{}, fmt.Errorf("get last inserted id: %w", err)
+	}
+
+	return model.Book{
+		Id:          int(lastId),
+		Title:       book.Title,
+		Author:      book.Author,
+		BookCover:   book.BookCover,
+		PublishedAt: book.PublishedAt,
+	}, nil
+}
+
 // GetBooks retrieves paginated books
-func (repo *libraryRepository) GetBooks(skip, take int) ([]model.Book, error) {
+func (repo *libraryRepository) GetBooks(ctx context.Context, skip, take int) ([]model.Book, error) {
 	return []model.Book{}, nil
 }
