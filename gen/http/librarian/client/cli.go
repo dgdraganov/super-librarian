@@ -29,6 +29,12 @@ func BuildGetBookPayload(librarianGetBookID string) (*librarian.GetBookPayload, 
 		if err != nil {
 			return nil, fmt.Errorf("invalid value for id, must be INT")
 		}
+		if id < 1 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("id", id, 1, true))
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
 	v := &librarian.GetBookPayload{}
 	v.ID = id
@@ -48,6 +54,12 @@ func BuildGetBooksPayload(librarianGetBooksSkip string, librarianGetBooksTake st
 		if err != nil {
 			return nil, fmt.Errorf("invalid value for skip, must be INT")
 		}
+		if skip < 0 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("skip", skip, 0, true))
+		}
+		if err != nil {
+			return nil, err
+		}
 	}
 	var take int
 	{
@@ -56,6 +68,12 @@ func BuildGetBooksPayload(librarianGetBooksSkip string, librarianGetBooksTake st
 		take = int(v)
 		if err != nil {
 			return nil, fmt.Errorf("invalid value for take, must be INT")
+		}
+		if take < 1 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("take", take, 1, true))
+		}
+		if err != nil {
+			return nil, err
 		}
 	}
 	v := &librarian.GetBooksPayload{}
@@ -73,7 +91,7 @@ func BuildCreateBookPayload(librarianCreateBookBody string) (*librarian.CreateBo
 	{
 		err = json.Unmarshal([]byte(librarianCreateBookBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"17n\",\n      \"book_cover\": \"l8z\",\n      \"published_at\": \"2000-04-18\",\n      \"title\": \"e0\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"17n\",\n      \"book_cover\": \"l8\",\n      \"published_at\": \"1999-02-14\",\n      \"title\": \"e0\"\n   }'")
 		}
 		if utf8.RuneCountInString(body.Title) < 1 {
 			err = goa.MergeErrors(err, goa.InvalidLengthError("body.title", body.Title, utf8.RuneCountInString(body.Title), 1, true))
@@ -87,11 +105,11 @@ func BuildCreateBookPayload(librarianCreateBookBody string) (*librarian.CreateBo
 		if utf8.RuneCountInString(body.Author) > 100 {
 			err = goa.MergeErrors(err, goa.InvalidLengthError("body.author", body.Author, utf8.RuneCountInString(body.Author), 100, false))
 		}
-		if utf8.RuneCountInString(body.BookCover) < 15 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 15, true))
+		if utf8.RuneCountInString(body.BookCover) < 1 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 1, true))
 		}
-		if utf8.RuneCountInString(body.BookCover) > 1024 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 1024, false))
+		if utf8.RuneCountInString(body.BookCover) > 2048 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 2048, false))
 		}
 		err = goa.MergeErrors(err, goa.ValidateFormat("body.published_at", body.PublishedAt, goa.FormatDate))
 		if err != nil {
@@ -116,7 +134,7 @@ func BuildUpdateBookPayload(librarianUpdateBookBody string) (*librarian.UpdateBo
 	{
 		err = json.Unmarshal([]byte(librarianUpdateBookBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"iuw\",\n      \"book_cover\": \"zpu\",\n      \"id\": 1824628676797947605,\n      \"published_at\": \"1971-03-27\",\n      \"title\": \"p\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"94b\",\n      \"book_cover\": \"op\",\n      \"id\": 5920727773572055287,\n      \"published_at\": \"1972-12-20\",\n      \"title\": \"2\"\n   }'")
 		}
 		if body.ID != nil {
 			if *body.ID < 1 {
@@ -135,11 +153,11 @@ func BuildUpdateBookPayload(librarianUpdateBookBody string) (*librarian.UpdateBo
 		if utf8.RuneCountInString(body.Author) > 100 {
 			err = goa.MergeErrors(err, goa.InvalidLengthError("body.author", body.Author, utf8.RuneCountInString(body.Author), 100, false))
 		}
-		if utf8.RuneCountInString(body.BookCover) < 15 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 15, true))
+		if utf8.RuneCountInString(body.BookCover) < 1 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 1, true))
 		}
-		if utf8.RuneCountInString(body.BookCover) > 1024 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 1024, false))
+		if utf8.RuneCountInString(body.BookCover) > 2048 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", body.BookCover, utf8.RuneCountInString(body.BookCover), 2048, false))
 		}
 		err = goa.MergeErrors(err, goa.ValidateFormat("body.published_at", body.PublishedAt, goa.FormatDate))
 		if err != nil {

@@ -22,7 +22,7 @@ type CreateBookRequestBody struct {
 	Title *string `form:"title,omitempty" json:"title,omitempty" xml:"title,omitempty"`
 	// The author of the book.
 	Author *string `form:"author,omitempty" json:"author,omitempty" xml:"author,omitempty"`
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover *string `form:"book_cover,omitempty" json:"book_cover,omitempty" xml:"book_cover,omitempty"`
 	// The date at which the book was published.
 	PublishedAt *string `form:"published_at,omitempty" json:"published_at,omitempty" xml:"published_at,omitempty"`
@@ -37,7 +37,7 @@ type UpdateBookRequestBody struct {
 	Title *string `form:"title,omitempty" json:"title,omitempty" xml:"title,omitempty"`
 	// The author of the book.
 	Author *string `form:"author,omitempty" json:"author,omitempty" xml:"author,omitempty"`
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover *string `form:"book_cover,omitempty" json:"book_cover,omitempty" xml:"book_cover,omitempty"`
 	// The date at which the book was published.
 	PublishedAt *string `form:"published_at,omitempty" json:"published_at,omitempty" xml:"published_at,omitempty"`
@@ -251,13 +251,13 @@ func ValidateCreateBookRequestBody(body *CreateBookRequestBody) (err error) {
 		}
 	}
 	if body.BookCover != nil {
-		if utf8.RuneCountInString(*body.BookCover) < 15 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 15, true))
+		if utf8.RuneCountInString(*body.BookCover) < 1 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 1, true))
 		}
 	}
 	if body.BookCover != nil {
-		if utf8.RuneCountInString(*body.BookCover) > 1024 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 1024, false))
+		if utf8.RuneCountInString(*body.BookCover) > 2048 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 2048, false))
 		}
 	}
 	if body.PublishedAt != nil {
@@ -307,13 +307,13 @@ func ValidateUpdateBookRequestBody(body *UpdateBookRequestBody) (err error) {
 		}
 	}
 	if body.BookCover != nil {
-		if utf8.RuneCountInString(*body.BookCover) < 15 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 15, true))
+		if utf8.RuneCountInString(*body.BookCover) < 1 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 1, true))
 		}
 	}
 	if body.BookCover != nil {
-		if utf8.RuneCountInString(*body.BookCover) > 1024 {
-			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 1024, false))
+		if utf8.RuneCountInString(*body.BookCover) > 2048 {
+			err = goa.MergeErrors(err, goa.InvalidLengthError("body.book_cover", *body.BookCover, utf8.RuneCountInString(*body.BookCover), 2048, false))
 		}
 	}
 	if body.PublishedAt != nil {

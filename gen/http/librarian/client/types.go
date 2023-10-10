@@ -20,7 +20,7 @@ type CreateBookRequestBody struct {
 	Title string `form:"title" json:"title" xml:"title"`
 	// The author of the book.
 	Author string `form:"author" json:"author" xml:"author"`
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover string `form:"book_cover" json:"book_cover" xml:"book_cover"`
 	// The date at which the book was published.
 	PublishedAt string `form:"published_at" json:"published_at" xml:"published_at"`
@@ -35,7 +35,7 @@ type UpdateBookRequestBody struct {
 	Title string `form:"title" json:"title" xml:"title"`
 	// The author of the book.
 	Author string `form:"author" json:"author" xml:"author"`
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover string `form:"book_cover" json:"book_cover" xml:"book_cover"`
 	// The date at which the book was published.
 	PublishedAt string `form:"published_at" json:"published_at" xml:"published_at"`

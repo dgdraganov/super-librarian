@@ -18,6 +18,26 @@ var UpdateBookPayload = Type("UpdateBookPayload", func() {
 	Attribute("published_at")
 })
 
+var GetBookPayload = Type("GetBookPayload", func() {
+	Description("ID of a book.")
+	Attribute("id", Int, "The ID of the book.", func() {
+		Minimum(1)
+	})
+
+	Required("id")
+})
+
+var GetBooksPayload = Type("GetBooksPayload", func() {
+	Description("Number for 'skip' and 'take'")
+	Attribute("skip", Int, "The numbers of records to skip before return.", func() {
+		Minimum(0)
+	})
+	Attribute("take", Int, "The numbers of records to return.", func() {
+		Minimum(1)
+	})
+	Required("skip", "take")
+})
+
 var CreateBookPayload = Type("CreateBookPayload", func() {
 	Description("A single book payload.")
 	Attribute("title", String, "The title of the book.", func() {
@@ -28,9 +48,9 @@ var CreateBookPayload = Type("CreateBookPayload", func() {
 		MinLength(3)
 		MaxLength(100)
 	})
-	Attribute("book_cover", String, "The cover image of the book.", func() {
-		MinLength(15)
-		MaxLength(1024)
+	Attribute("book_cover", String, "The URL to the cover image.", func() {
+		MinLength(1)
+		MaxLength(2048)
 	})
 	Attribute("published_at", String, "The date at which the book was published.", func() {
 		Format(FormatDate)

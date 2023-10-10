@@ -44,7 +44,7 @@ type CreateBookPayload struct {
 	Title string
 	// The author of the book.
 	Author string
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover string
 	// The date at which the book was published.
 	PublishedAt string
@@ -74,16 +74,16 @@ type DeleteBookPayload struct {
 
 // GetBookPayload is the payload type of the librarian service get-book method.
 type GetBookPayload struct {
-	// Book id
+	// The ID of the book.
 	ID int
 }
 
 // GetBooksPayload is the payload type of the librarian service get-books
 // method.
 type GetBooksPayload struct {
-	// Number of books to skip
+	// The numbers of records to skip before return.
 	Skip int
-	// Number of books to take after skip
+	// The numbers of records to return.
 	Take int
 }
 
@@ -132,7 +132,7 @@ type UpdateBookPayload struct {
 	Title string
 	// The author of the book.
 	Author string
-	// The cover image of the book.
+	// The URL to the cover image.
 	BookCover string
 	// The date at which the book was published.
 	PublishedAt string

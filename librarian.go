@@ -27,10 +27,9 @@ func NewLibrarian(booksRepository BooksRepo, logger *log.Logger) librarian.Servi
 // Retrieve a book by id.
 func (s *librariansrvc) GetBook(ctx context.Context, p *librarian.GetBookPayload) (res *librarian.Getbookresponse, err error) {
 	res = &librarian.Getbookresponse{}
-	s.logs.Print("librarian.get-book")
 	result, err := s.repo.GetBook(ctx, p.ID)
 	if err != nil {
-		s.logs.Printf("repo get book: %s", err)
+		s.logs.Printf("ERROR: repo get book: %s", err)
 		// todo: return Invalid request or server error
 		return &librarian.Getbookresponse{}, nil
 	}
@@ -56,7 +55,7 @@ func (s *librariansrvc) CreateBook(ctx context.Context, p *librarian.CreateBookP
 	published, err := time.Parse("2006-01-02", p.PublishedAt)
 	if err != nil {
 		// todo: return Invalid request
-		s.logs.Printf("time parse: %s", err)
+		s.logs.Printf("ERROR: time parse: %s", err)
 
 		return &librarian.Createbookresponse{}, nil
 	}
@@ -70,7 +69,7 @@ func (s *librariansrvc) CreateBook(ctx context.Context, p *librarian.CreateBookP
 
 	result, err := s.repo.CreateBook(ctx, book)
 	if err != nil {
-		s.logs.Printf("repo create book: %s", err)
+		s.logs.Printf("ERROR: repo create book: %s", err)
 		// todo: return Internal server error return
 		return &librarian.Createbookresponse{}, nil
 	}

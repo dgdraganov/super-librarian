@@ -48,6 +48,9 @@ func DecodeGetBookRequest(mux goahttp.Muxer, decoder func(*http.Request) goahttp
 			}
 			id = int(v)
 		}
+		if id < 1 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("id", id, 1, true))
+		}
 		if err != nil {
 			return nil, err
 		}
@@ -88,6 +91,9 @@ func DecodeGetBooksRequest(mux goahttp.Muxer, decoder func(*http.Request) goahtt
 			}
 			skip = int(v)
 		}
+		if skip < 0 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("skip", skip, 0, true))
+		}
 		{
 			takeRaw := params["take"]
 			v, err2 := strconv.ParseInt(takeRaw, 10, strconv.IntSize)
@@ -95,6 +101,9 @@ func DecodeGetBooksRequest(mux goahttp.Muxer, decoder func(*http.Request) goahtt
 				err = goa.MergeErrors(err, goa.InvalidFieldTypeError("take", takeRaw, "integer"))
 			}
 			take = int(v)
+		}
+		if take < 1 {
+			err = goa.MergeErrors(err, goa.InvalidRangeError("take", take, 1, true))
 		}
 		if err != nil {
 			return nil, err

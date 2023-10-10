@@ -20,10 +20,7 @@ var _ = Service("librarian", func() {
 	// get a single book
 	Method("get-book", func() {
 		Description("Retrieve a book by id.")
-		Payload(func() {
-			Field(1, "id", Int, "Book id")
-			Required("id")
-		})
+		Payload(GetBookPayload)
 
 		Result(GetBookResponse)
 
@@ -35,12 +32,7 @@ var _ = Service("librarian", func() {
 	// get books by pages
 	Method("get-books", func() {
 		Description("Get paginated books by specifying the number of books to skip and take.")
-		Payload(func() {
-			Field(1, "skip", Int, "Number of books to skip")
-			Field(2, "take", Int, "Number of books to take after skip")
-			Required("skip")
-			Required("take")
-		})
+		Payload(GetBooksPayload)
 
 		Result(GetBooksResponse)
 

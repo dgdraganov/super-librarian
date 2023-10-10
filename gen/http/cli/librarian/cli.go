@@ -28,7 +28,7 @@ func UsageCommands() string {
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` librarian get-book --id 1128970373747957694` + "\n" +
+	return os.Args[0] + ` librarian get-book --id 1128970373747957695` + "\n" +
 		""
 }
 
@@ -45,11 +45,11 @@ func ParseEndpoint(
 		librarianFlags = flag.NewFlagSet("librarian", flag.ContinueOnError)
 
 		librarianGetBookFlags  = flag.NewFlagSet("get-book", flag.ExitOnError)
-		librarianGetBookIDFlag = librarianGetBookFlags.String("id", "REQUIRED", "Book id")
+		librarianGetBookIDFlag = librarianGetBookFlags.String("id", "REQUIRED", "The ID of the book.")
 
 		librarianGetBooksFlags    = flag.NewFlagSet("get-books", flag.ExitOnError)
-		librarianGetBooksSkipFlag = librarianGetBooksFlags.String("skip", "REQUIRED", "Number of books to skip")
-		librarianGetBooksTakeFlag = librarianGetBooksFlags.String("take", "REQUIRED", "Number of books to take after skip")
+		librarianGetBooksSkipFlag = librarianGetBooksFlags.String("skip", "REQUIRED", "The numbers of records to skip before return.")
+		librarianGetBooksTakeFlag = librarianGetBooksFlags.String("take", "REQUIRED", "The numbers of records to return.")
 
 		librarianCreateBookFlags    = flag.NewFlagSet("create-book", flag.ExitOnError)
 		librarianCreateBookBodyFlag = librarianCreateBookFlags.String("body", "REQUIRED", "")
@@ -188,10 +188,10 @@ func librarianGetBookUsage() {
 	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian get-book -id INT
 
 Retrieve a book by id.
-    -id INT: Book id
+    -id INT: The ID of the book.
 
 Example:
-    %[1]s librarian get-book --id 1128970373747957694
+    %[1]s librarian get-book --id 1128970373747957695
 `, os.Args[0])
 }
 
@@ -199,11 +199,11 @@ func librarianGetBooksUsage() {
 	fmt.Fprintf(os.Stderr, `%[1]s [flags] librarian get-books -skip INT -take INT
 
 Get paginated books by specifying the number of books to skip and take.
-    -skip INT: Number of books to skip
-    -take INT: Number of books to take after skip
+    -skip INT: The numbers of records to skip before return.
+    -take INT: The numbers of records to return.
 
 Example:
-    %[1]s librarian get-books --skip 1560156484854602529 --take 7825010768422407406
+    %[1]s librarian get-books --skip 1560156484854602529 --take 7825010768422407407
 `, os.Args[0])
 }
 
@@ -216,8 +216,8 @@ Create a single book.
 Example:
     %[1]s librarian create-book --body '{
       "author": "17n",
-      "book_cover": "l8z",
-      "published_at": "2000-04-18",
+      "book_cover": "l8",
+      "published_at": "1999-02-14",
       "title": "e0"
    }'
 `, os.Args[0])
@@ -231,11 +231,11 @@ Updates a book by the given id.
 
 Example:
     %[1]s librarian update-book --body '{
-      "author": "iuw",
-      "book_cover": "zpu",
-      "id": 1824628676797947605,
-      "published_at": "1971-03-27",
-      "title": "p"
+      "author": "94b",
+      "book_cover": "op",
+      "id": 5920727773572055287,
+      "published_at": "1972-12-20",
+      "title": "2"
    }'
 `, os.Args[0])
 }
@@ -247,6 +247,6 @@ Delete a single book.
     -id INT: Book id
 
 Example:
-    %[1]s librarian delete-book --id 3768971979315361382
+    %[1]s librarian delete-book --id 8281145538260370749
 `, os.Args[0])
 }

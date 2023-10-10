@@ -15,7 +15,7 @@ type BooksRepo interface {
 
 type Logger interface {
 	Errorw(msg string, keysAndValues ...interface{})
-	Irrorw(msg string, keysAndValues ...interface{})
+	Infow(msg string, keysAndValues ...interface{})
 	Errorf(template string, args ...interface{})
 	Infof(template string, args ...interface{})
 }
