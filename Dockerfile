@@ -6,8 +6,8 @@ WORKDIR /app
 COPY . .
 
 # RUN go mod download
-RUN go build -o ./bin/librarian cmd/librarian/* \
- && go build -o ./bin/migrator cmd/migrator/*
+RUN go build -o ./bin/librarian cmd/librarian/*.go \
+ && go build -o ./bin/migrator cmd/migrator/*.go
 
 FROM ubuntu:22.04
 

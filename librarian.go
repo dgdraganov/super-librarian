@@ -3,8 +3,10 @@ package librarianapi
 import (
 	"context"
 	"log"
+	"time"
 
 	librarian "github.com/dgdraganov/super-librarian/gen/librarian"
+	"github.com/dgdraganov/super-librarian/internal/model"
 )
 
 // librarian service example implementation.
@@ -26,7 +28,18 @@ func NewLibrarian(booksRepository BooksRepo, logger *log.Logger) librarian.Servi
 func (s *librariansrvc) GetBook(ctx context.Context, p *librarian.GetBookPayload) (res *librarian.Getbookresponse, err error) {
 	res = &librarian.Getbookresponse{}
 	s.logs.Print("librarian.get-book")
-	return
+	result, err := s.repo.GetBook(ctx, 1)
+	if err != nil {
+		// todo: return Invalid request or server error
+		return &librarian.Getbookresponse{}, nil
+	}
+	return &librarian.Getbookresponse{
+		ID:          result.Id,
+		Title:       result.Title,
+		Author:      result.Author,
+		BookCover:   result.BookCover,
+		PublishedAt: result.PublishedAt.Format(time.RFC3339),
+	}, nil
 }
 
 // Get paginated books by specifying the number of books to skip and take.
@@ -38,9 +51,32 @@ func (s *librariansrvc) GetBooks(ctx context.Context, p *librarian.GetBooksPaylo
 
 // Create a single book.
 func (s *librariansrvc) CreateBook(ctx context.Context, p *librarian.CreateBookPayload) (res *librarian.Createbookresponse, err error) {
-	res = &librarian.Createbookresponse{}
 	s.logs.Print("librarian.create-book")
-	return
+	published, err := time.Parse(time.RFC3339, p.PublishedAt)
+	if err != nil {
+		// todo: return Invalid request
+		return &librarian.Createbookresponse{}, nil
+	}
+
+	book := model.Book{
+		Title:       p.Title,
+		Author:      p.Author,
+		BookCover:   p.BookCover,
+		PublishedAt: published,
+	}
+	result, err := s.repo.CreateBook(ctx, book)
+	if err != nil {
+		// todo: return Internal server error return
+		return &librarian.Createbookresponse{}, nil
+	}
+
+	return &librarian.Createbookresponse{
+		ID:          result.Id,
+		Title:       res.Title,
+		Author:      result.Author,
+		BookCover:   result.BookCover,
+		PublishedAt: result.PublishedAt.Format(time.RFC3339),
+	}, nil
 }
 
 // Updates a book by the given id.

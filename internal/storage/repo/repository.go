@@ -13,10 +13,11 @@ import (
 // libraryRepository represents a mysql books repository
 type libraryRepository struct {
 	db *sql.DB
+	// logger Logger
 }
 
 // NewLibraryRepository is a constructor function for the libraryRepository type
-func NewLibraryRepository(config *model.MySqlConfig) *libraryRepository {
+func NewLibraryRepository(config model.MySqlConfig) *libraryRepository {
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s",
 		config.Username,
@@ -40,6 +41,7 @@ func (repo *libraryRepository) Ping(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("db ping: %w", err)
 	}
+
 	return nil
 }
 

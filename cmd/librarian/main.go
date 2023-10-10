@@ -2,31 +2,33 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
 	"net"
 	"net/url"
 	"os"
 	"os/signal"
+	"strings"
 	"sync"
 	"syscall"
 
 	librarianapi "github.com/dgdraganov/super-librarian"
 	librarian "github.com/dgdraganov/super-librarian/gen/librarian"
+	"github.com/dgdraganov/super-librarian/internal/storage/repo"
+	"github.com/dgdraganov/super-librarian/pkg/config"
 )
 
 func main() {
-	// Define command line flags, add any other flag required to configure the
-	// service.
-	var (
-		hostF     = flag.String("host", "localhost", "Server host (valid values: localhost)")
-		domainF   = flag.String("domain", "", "Host domain name (overrides host domain specified in service design)")
-		httpPortF = flag.String("http-port", "", "HTTP port (overrides host HTTP port specified in service design)")
-		secureF   = flag.Bool("secure", false, "Use secure scheme (https or grpcs)")
-		dbgF      = flag.Bool("debug", false, "Log request and response bodies")
-	)
-	flag.Parse()
+
+	appConfig, err := config.NewServiceConfig()
+	if err != nil {
+		panic(fmt.Errorf("new service config: %w", err))
+	}
+
+	dbConfig, err := config.NewDatabaseConfig()
+	if err != nil {
+		panic(fmt.Errorf("new db config: %w", err))
+	}
 
 	// Setup logger. Replace logger with your own log package of choice.
 	var (
@@ -36,12 +38,20 @@ func main() {
 		logger = log.New(os.Stderr, "[librarianapi] ", log.Ltime)
 	}
 
+	// Setup repository.
+	var (
+		repository librarianapi.BooksRepo
+	)
+	{
+		repository = repo.NewLibraryRepository(dbConfig)
+	}
+
 	// Initialize the services.
 	var (
 		librarianSvc librarian.Service
 	)
 	{
-		librarianSvc = librarianapi.NewLibrarian(logger)
+		librarianSvc = librarianapi.NewLibrarian(repository, logger)
 	}
 
 	// Wrap the services in endpoints that can be invoked from other services
@@ -69,34 +79,36 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 
 	// Start the servers and send errors (if any) to the error channel.
-	switch *hostF {
+	switch appConfig.Host {
 	case "localhost":
 		{
-			addr := "http://localhost:8000"
+			addr := "http://0.0.0.0:8000"
 			u, err := url.Parse(addr)
 			if err != nil {
 				logger.Fatalf("invalid URL %#v: %s\n", addr, err)
 			}
-			if *secureF {
-				u.Scheme = "https"
-			}
-			if *domainF != "" {
-				u.Host = *domainF
-			}
-			if *httpPortF != "" {
+			// if *secureF {
+			// 	u.Scheme = "https"
+			// }
+			// if *domainF != "" {
+			// 	u.Host = *domainF
+			// }
+			if appConfig.HttpPort != "" {
 				h, _, err := net.SplitHostPort(u.Host)
 				if err != nil {
 					logger.Fatalf("invalid URL %#v: %s\n", u.Host, err)
 				}
-				u.Host = net.JoinHostPort(h, *httpPortF)
+				u.Host = net.JoinHostPort(h, appConfig.HttpPort)
+				fmt.Println(u.Host)
 			} else if u.Port() == "" {
 				u.Host = net.JoinHostPort(u.Host, "80")
 			}
-			handleHTTPServer(ctx, u, librarianEndpoints, &wg, errc, logger, *dbgF)
+			isProd := strings.ToUpper(appConfig.AppEnv) == "PROD"
+			handleHTTPServer(ctx, u, librarianEndpoints, &wg, errc, logger, !isProd)
 		}
 
 	default:
-		logger.Fatalf("invalid host argument: %q (valid hosts: localhost)\n", *hostF)
+		logger.Fatalf("invalid host argument: %q (valid hosts: localhost)\n", appConfig.Host)
 	}
 
 	// Wait for signal.

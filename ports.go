@@ -12,3 +12,6 @@ type BooksRepo interface {
 	GetBooks(ctx context.Context, skip, take int) ([]model.Book, error)
 	CreateBook(context.Context, model.Book) (model.Book, error)
 }
+
+type Logger interface {
+}
