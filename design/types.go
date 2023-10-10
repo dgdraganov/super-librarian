@@ -4,29 +4,8 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
-// var Book = Type("Book", func() {
-// 	Attribute("id", Int, "The unique id of the book.", func() {
-// 		Minimum(1)
-// 	})
-// 	Attribute("title", String, "The title of the book.", func() {
-// 		MinLength(1)
-// 		MaxLength(255)
-// 	})
-// 	Attribute("author", String, "The author of the book.", func() {
-// 		MinLength(3)
-// 		MaxLength(100)
-// 	})
-// 	Attribute("book_cover", String, "The cover image of the book.", func() {
-// 		MinLength(15)
-// 		MaxLength(1024)
-// 	})
-// 	Attribute("published_at", String, "The date at which the book was published.", func() {
-// 		Format(FormatDate)
-// 	})
-// })
-
 var UpdateBookPayload = Type("UpdateBookPayload", func() {
-	Description("A single book response.")
+	Description("A single book payload.")
 	Reference(CreateBookPayload)
 
 	Attribute("id", Int, "The unique id of the book.", func() {
@@ -40,6 +19,7 @@ var UpdateBookPayload = Type("UpdateBookPayload", func() {
 })
 
 var CreateBookPayload = Type("CreateBookPayload", func() {
+	Description("A single book payload.")
 	Attribute("title", String, "The title of the book.", func() {
 		MinLength(1)
 		MaxLength(255)
@@ -69,7 +49,7 @@ var ResultBook = ResultType("ResultBook", func() {
 })
 
 var CreateBookResponse = ResultType("CreateBookResponse", func() {
-	Description("A single book response.")
+	Description("A created book response.")
 	Reference(ResultBook)
 
 	Attributes(func() {

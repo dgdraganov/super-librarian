@@ -19,7 +19,7 @@ type libraryRepository struct {
 // NewLibraryRepository is a constructor function for the libraryRepository type
 func NewLibraryRepository(config model.MySqlConfig) *libraryRepository {
 	dsn := fmt.Sprintf(
-		"%s:%s@tcp(%s:%s)/%s",
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		config.Username,
 		config.Password,
 		config.Host,
@@ -48,7 +48,7 @@ func (repo *libraryRepository) Ping(ctx context.Context) error {
 // GetBook retrieves a single book from the db
 func (repo *libraryRepository) GetBook(ctx context.Context, id int) (model.Book, error) {
 
-	stmt, err := repo.db.Prepare(`select id, title, author, bookCover, publishedAt 
+	stmt, err := repo.db.Prepare(`select id, author, title, bookCover, publishedAt 
 								  from Books
 								  where id = ?`)
 	if err != nil {
@@ -58,7 +58,7 @@ func (repo *libraryRepository) GetBook(ctx context.Context, id int) (model.Book,
 	row := stmt.QueryRowContext(ctx, id)
 
 	book := model.Book{}
-	if err := row.Scan(&book); err != nil {
+	if err := row.Scan(&book.Id, &book.Author, &book.Title, &book.BookCover, &book.PublishedAt); err != nil {
 		return model.Book{}, fmt.Errorf("row scan: %w", err)
 	}
 
