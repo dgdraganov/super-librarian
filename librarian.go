@@ -30,6 +30,7 @@ func (s *librariansrvc) GetBook(ctx context.Context, p *librarian.GetBookPayload
 	s.logs.Print("librarian.get-book")
 	result, err := s.repo.GetBook(ctx, 1)
 	if err != nil {
+		s.logs.Printf("repo get book: %w", err)
 		// todo: return Invalid request or server error
 		return &librarian.Getbookresponse{}, nil
 	}
@@ -52,9 +53,11 @@ func (s *librariansrvc) GetBooks(ctx context.Context, p *librarian.GetBooksPaylo
 // Create a single book.
 func (s *librariansrvc) CreateBook(ctx context.Context, p *librarian.CreateBookPayload) (res *librarian.Createbookresponse, err error) {
 	s.logs.Print("librarian.create-book")
-	published, err := time.Parse(time.RFC3339, p.PublishedAt)
+	published, err := time.Parse("2006-01-02", p.PublishedAt)
 	if err != nil {
 		// todo: return Invalid request
+		s.logs.Printf("time parse: %s", err)
+
 		return &librarian.Createbookresponse{}, nil
 	}
 
@@ -64,15 +67,17 @@ func (s *librariansrvc) CreateBook(ctx context.Context, p *librarian.CreateBookP
 		BookCover:   p.BookCover,
 		PublishedAt: published,
 	}
+
 	result, err := s.repo.CreateBook(ctx, book)
 	if err != nil {
+		s.logs.Printf("repo create book: %s", err)
 		// todo: return Internal server error return
 		return &librarian.Createbookresponse{}, nil
 	}
 
 	return &librarian.Createbookresponse{
 		ID:          result.Id,
-		Title:       res.Title,
+		Title:       result.Title,
 		Author:      result.Author,
 		BookCover:   result.BookCover,
 		PublishedAt: result.PublishedAt.Format(time.RFC3339),
