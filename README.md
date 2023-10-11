@@ -1,5 +1,4 @@
-# 
-API for CRUD operations with Books.
+
 
 # super-librarian
 
