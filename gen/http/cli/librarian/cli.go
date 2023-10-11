@@ -203,7 +203,7 @@ Get paginated books by specifying the number of books to skip and take.
     -take INT: The numbers of records to return.
 
 Example:
-    %[1]s librarian get-books --skip 1560156484854602529 --take 7825010768422407407
+    %[1]s librarian get-books --skip 3798971085739045714 --take 4330407398760789330
 `, os.Args[0])
 }
 
@@ -215,10 +215,10 @@ Create a single book.
 
 Example:
     %[1]s librarian create-book --body '{
-      "author": "17n",
-      "book_cover": "l8",
-      "published_at": "1999-02-14",
-      "title": "e0"
+      "author": "3ew",
+      "book_cover": "a3",
+      "published_at": "2006-04-23",
+      "title": "u5h"
    }'
 `, os.Args[0])
 }
@@ -231,11 +231,11 @@ Updates a book by the given id.
 
 Example:
     %[1]s librarian update-book --body '{
-      "author": "94b",
-      "book_cover": "op",
-      "id": 5920727773572055287,
-      "published_at": "1972-12-20",
-      "title": "2"
+      "author": "iae",
+      "book_cover": "yd",
+      "id": 3737986959803916148,
+      "published_at": "1984-06-22",
+      "title": "7p"
    }'
 `, os.Args[0])
 }
@@ -247,6 +247,6 @@ Delete a single book.
     -id INT: Book id
 
 Example:
-    %[1]s librarian delete-book --id 8281145538260370749
+    %[1]s librarian delete-book --id 7092226690734259057
 `, os.Args[0])
 }

@@ -36,6 +36,18 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/LibrarianCreateBookResponseBody'
+                "400":
+                    description: Bad Request response.
+                    schema:
+                        $ref: '#/definitions/LibrarianCreateBookBadRequestResponseBody'
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/LibrarianCreateBookNotFoundResponseBody'
+                "500":
+                    description: Internal Server Error response.
+                    schema:
+                        $ref: '#/definitions/LibrarianCreateBookInternalServerErrorResponseBody'
             schemes:
                 - http
         patch:
@@ -81,6 +93,14 @@ paths:
                     description: OK response.
                     schema:
                         $ref: '#/definitions/LibrarianGetBookResponseBody'
+                "404":
+                    description: Not Found response.
+                    schema:
+                        $ref: '#/definitions/LibrarianGetBookNotFoundResponseBody'
+                "500":
+                    description: Internal Server Error response.
+                    schema:
+                        $ref: '#/definitions/LibrarianGetBookInternalServerErrorResponseBody'
             schemes:
                 - http
         delete:
@@ -141,6 +161,135 @@ paths:
             schemes:
                 - http
 definitions:
+    LibrarianCreateBookBadRequestResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: Bad request. (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    LibrarianCreateBookInternalServerErrorResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: false
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: Something went wrong on our end. (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: true
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    LibrarianCreateBookNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: false
+        description: Book not found. (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
     LibrarianCreateBookRequestBody:
         title: LibrarianCreateBookRequestBody
         type: object
@@ -148,31 +297,31 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: t7m
+                example: 33l
                 minLength: 3
                 maxLength: 100
             book_cover:
                 type: string
                 description: The URL to the cover image.
-                example: ax
+                example: ee
                 minLength: 1
                 maxLength: 2048
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: "1973-10-25"
+                example: "2012-07-22"
                 format: date
             title:
                 type: string
                 description: The title of the book.
-                example: eh
+                example: hk
                 minLength: 1
                 maxLength: 255
         example:
-            author: nw1
-            book_cover: "3"
-            published_at: "2005-06-14"
-            title: "y"
+            author: g2g
+            book_cover: w
+            published_at: "1982-07-11"
+            title: "17"
         required:
             - title
             - author
@@ -185,37 +334,123 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: Amet sunt ea est quam.
+                example: Suscipit saepe minus consequatur suscipit molestiae sint.
             book_cover:
                 type: string
                 description: The cover image of the book.
-                example: Minima sit nam quia culpa iste incidunt.
+                example: Consectetur nobis eveniet voluptas minima labore alias.
             id:
                 type: integer
                 description: The unique id of the book.
-                example: 5183068330495628784
+                example: 2815907888021207016
                 format: int64
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: Temporibus blanditiis aliquam amet eveniet voluptatibus.
+                example: Qui voluptas consectetur.
             title:
                 type: string
                 description: The title of the book.
-                example: Omnis esse.
+                example: Aliquam amet eveniet voluptatibus est quo magnam.
         description: Create-BookResponseBody result type (default view)
         example:
-            author: Suscipit molestiae sint quae consectetur nobis.
-            book_cover: Voluptas minima labore.
-            id: 1159523984026751960
-            published_at: Vel qui voluptas consectetur officia.
-            title: Magnam molestiae suscipit saepe minus.
+            author: Unde est rerum ad repudiandae excepturi occaecati.
+            book_cover: Culpa repudiandae distinctio eveniet sint voluptatum.
+            id: 4946365590162799532
+            published_at: Maxime repudiandae ad et.
+            title: Aliquid ut.
         required:
             - id
             - title
             - book_cover
             - author
             - published_at
+    LibrarianGetBookInternalServerErrorResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: true
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: Something went wrong on our end. (default view)
+        example:
+            fault: false
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: true
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
+    LibrarianGetBookNotFoundResponseBody:
+        title: 'Mediatype identifier: application/vnd.goa.error; view=default'
+        type: object
+        properties:
+            fault:
+                type: boolean
+                description: Is the error a server-side fault?
+                example: true
+            id:
+                type: string
+                description: ID is a unique identifier for this particular occurrence of the problem.
+                example: 123abc
+            message:
+                type: string
+                description: Message is a human-readable explanation specific to this occurrence of the problem.
+                example: parameter 'p' must be an integer
+            name:
+                type: string
+                description: Name is the name of this class of errors.
+                example: bad_request
+            temporary:
+                type: boolean
+                description: Is the error temporary?
+                example: false
+            timeout:
+                type: boolean
+                description: Is the error a timeout?
+                example: true
+        description: Book not found. (default view)
+        example:
+            fault: true
+            id: 123abc
+            message: parameter 'p' must be an integer
+            name: bad_request
+            temporary: false
+            timeout: false
+        required:
+            - name
+            - id
+            - message
+            - temporary
+            - timeout
+            - fault
     LibrarianGetBookResponseBody:
         title: 'Mediatype identifier: getbookresponse; view=default'
         type: object
@@ -223,31 +458,31 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: Illum optio illum laborum.
+                example: Et sed.
             book_cover:
                 type: string
                 description: The cover image of the book.
-                example: Provident velit ad unde.
+                example: Ab qui.
             id:
                 type: integer
                 description: The unique id of the book.
-                example: 3171054538973682877
+                example: 934842211456806763
                 format: int64
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: Est enim explicabo.
+                example: Dolores at qui molestiae molestiae hic.
             title:
                 type: string
                 description: The title of the book.
-                example: Officia cum.
+                example: Unde facere est enim explicabo dolorem eaque.
         description: Get-BookResponseBody result type (default view)
         example:
-            author: Natus dolores at qui molestiae molestiae.
-            book_cover: Sit quidem laboriosam excepturi.
-            id: 6480732628649483770
-            published_at: Molestiae voluptas ipsam.
-            title: Nostrum et sed dicta ab.
+            author: Ipsam voluptatibus.
+            book_cover: Dolorum facere cupiditate.
+            id: 8664517620224913565
+            published_at: A est voluptatibus.
+            title: Laboriosam excepturi sunt molestiae.
         required:
             - id
             - title
@@ -263,26 +498,26 @@ definitions:
         description: Get-BooksResponseBody result type (default view)
         example:
             books:
-                - author: Rerum reiciendis delectus eaque.
-                  book_cover: Sit rem sequi quidem sint deleniti sed.
-                  id: 7065326254943901839
-                  published_at: Aut dolorem aut esse nulla nam.
-                  title: Illum atque deserunt.
-                - author: Rerum reiciendis delectus eaque.
-                  book_cover: Sit rem sequi quidem sint deleniti sed.
-                  id: 7065326254943901839
-                  published_at: Aut dolorem aut esse nulla nam.
-                  title: Illum atque deserunt.
-                - author: Rerum reiciendis delectus eaque.
-                  book_cover: Sit rem sequi quidem sint deleniti sed.
-                  id: 7065326254943901839
-                  published_at: Aut dolorem aut esse nulla nam.
-                  title: Illum atque deserunt.
-                - author: Rerum reiciendis delectus eaque.
-                  book_cover: Sit rem sequi quidem sint deleniti sed.
-                  id: 7065326254943901839
-                  published_at: Aut dolorem aut esse nulla nam.
-                  title: Illum atque deserunt.
+                - author: Aut dolorem aut esse nulla nam.
+                  book_cover: Quisquam ratione ab.
+                  id: 543807350135184130
+                  published_at: Sapiente et dolore voluptatem sint.
+                  title: Sit rem sequi quidem sint deleniti sed.
+                - author: Aut dolorem aut esse nulla nam.
+                  book_cover: Quisquam ratione ab.
+                  id: 543807350135184130
+                  published_at: Sapiente et dolore voluptatem sint.
+                  title: Sit rem sequi quidem sint deleniti sed.
+                - author: Aut dolorem aut esse nulla nam.
+                  book_cover: Quisquam ratione ab.
+                  id: 543807350135184130
+                  published_at: Sapiente et dolore voluptatem sint.
+                  title: Sit rem sequi quidem sint deleniti sed.
+                - author: Aut dolorem aut esse nulla nam.
+                  book_cover: Quisquam ratione ab.
+                  id: 543807350135184130
+                  published_at: Sapiente et dolore voluptatem sint.
+                  title: Sit rem sequi quidem sint deleniti sed.
     LibrarianUpdateBookRequestBody:
         title: LibrarianUpdateBookRequestBody
         type: object
@@ -290,37 +525,37 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: 6jq
+                example: n1k
                 minLength: 3
                 maxLength: 100
             book_cover:
                 type: string
                 description: The URL to the cover image.
-                example: s0
+                example: n2l
                 minLength: 1
                 maxLength: 2048
             id:
                 type: integer
                 description: The unique id of the book.
-                example: 1223066010395007203
+                example: 1421007298901587518
                 minimum: 1
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: "1975-06-01"
+                example: "1970-05-27"
                 format: date
             title:
                 type: string
                 description: The title of the book.
-                example: 8c9
+                example: v
                 minLength: 1
                 maxLength: 255
         example:
-            author: zqz
-            book_cover: ik8
-            id: 2702213544238060525
-            published_at: "2000-06-11"
-            title: p
+            author: 8io
+            book_cover: ji
+            id: 3302675730273335053
+            published_at: "1973-05-12"
+            title: oe
         required:
             - title
             - author
@@ -333,31 +568,31 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: Itaque et nostrum.
+                example: Eum ducimus iure eos.
             book_cover:
                 type: string
                 description: The cover image of the book.
-                example: Corporis ipsa expedita eius excepturi perferendis aut.
+                example: Dolor inventore cumque.
             id:
                 type: integer
                 description: The unique id of the book.
-                example: 2838318885301413970
+                example: 8530341373554594279
                 format: int64
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: Enim optio id et consectetur officiis.
+                example: Adipisci culpa et necessitatibus vitae.
             title:
                 type: string
                 description: The title of the book.
-                example: Mollitia facere.
+                example: Natus quo ex.
         description: Update-BookResponseBody result type (default view)
         example:
-            author: Libero molestiae nisi eaque.
-            book_cover: Autem molestiae beatae eos omnis.
-            id: 1634566722588700878
-            published_at: Et expedita aut vel.
-            title: Molestiae ut cupiditate aut.
+            author: Nihil animi fugiat.
+            book_cover: Delectus ipsa ea autem ut quo perspiciatis.
+            id: 7044367370433355936
+            published_at: Est sed.
+            title: Voluptate ratione consectetur illum sit et vel.
         required:
             - id
             - title
@@ -371,31 +606,31 @@ definitions:
             author:
                 type: string
                 description: The author of the book.
-                example: A est voluptatibus.
+                example: Voluptatum voluptas.
             book_cover:
                 type: string
                 description: The cover image of the book.
-                example: Tempora cupiditate iste quia.
+                example: Ullam ad facilis molestiae.
             id:
                 type: integer
                 description: The unique id of the book.
-                example: 3976997990927822242
+                example: 7271606562326081766
                 format: int64
             published_at:
                 type: string
                 description: The date at which the book was published.
-                example: Reprehenderit sint provident quia enim.
+                example: Quo qui.
             title:
                 type: string
                 description: The title of the book.
-                example: Dolorum facere cupiditate.
+                example: Quidem magni quis.
         description: ResultbookResponseBody result type (default view)
         example:
-            author: Ut ullam ad facilis.
-            book_cover: Commodi quo qui ut.
-            id: 2276686251063278395
-            published_at: Voluptas corrupti.
-            title: Eligendi quidem magni quis corporis voluptatum.
+            author: Occaecati nulla omnis esse veritatis amet sunt.
+            book_cover: Est quam itaque minima.
+            id: 7706999087105072587
+            published_at: Nam quia culpa iste incidunt.
+            title: Voluptas corrupti.
         required:
             - id
             - title
@@ -409,23 +644,13 @@ definitions:
             $ref: '#/definitions/ResultbookResponseBody'
         description: ResultbookCollectionResponseBody is the result type for an array of ResultbookResponseBody (default view)
         example:
-            - author: Rerum reiciendis delectus eaque.
-              book_cover: Sit rem sequi quidem sint deleniti sed.
-              id: 7065326254943901839
-              published_at: Aut dolorem aut esse nulla nam.
-              title: Illum atque deserunt.
-            - author: Rerum reiciendis delectus eaque.
-              book_cover: Sit rem sequi quidem sint deleniti sed.
-              id: 7065326254943901839
-              published_at: Aut dolorem aut esse nulla nam.
-              title: Illum atque deserunt.
-            - author: Rerum reiciendis delectus eaque.
-              book_cover: Sit rem sequi quidem sint deleniti sed.
-              id: 7065326254943901839
-              published_at: Aut dolorem aut esse nulla nam.
-              title: Illum atque deserunt.
-            - author: Rerum reiciendis delectus eaque.
-              book_cover: Sit rem sequi quidem sint deleniti sed.
-              id: 7065326254943901839
-              published_at: Aut dolorem aut esse nulla nam.
-              title: Illum atque deserunt.
+            - author: Aut dolorem aut esse nulla nam.
+              book_cover: Quisquam ratione ab.
+              id: 543807350135184130
+              published_at: Sapiente et dolore voluptatem sint.
+              title: Sit rem sequi quidem sint deleniti sed.
+            - author: Aut dolorem aut esse nulla nam.
+              book_cover: Quisquam ratione ab.
+              id: 543807350135184130
+              published_at: Sapiente et dolore voluptatem sint.
+              title: Sit rem sequi quidem sint deleniti sed.

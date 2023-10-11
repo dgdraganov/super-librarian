@@ -91,7 +91,7 @@ func BuildCreateBookPayload(librarianCreateBookBody string) (*librarian.CreateBo
 	{
 		err = json.Unmarshal([]byte(librarianCreateBookBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"17n\",\n      \"book_cover\": \"l8\",\n      \"published_at\": \"1999-02-14\",\n      \"title\": \"e0\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"3ew\",\n      \"book_cover\": \"a3\",\n      \"published_at\": \"2006-04-23\",\n      \"title\": \"u5h\"\n   }'")
 		}
 		if utf8.RuneCountInString(body.Title) < 1 {
 			err = goa.MergeErrors(err, goa.InvalidLengthError("body.title", body.Title, utf8.RuneCountInString(body.Title), 1, true))
@@ -134,7 +134,7 @@ func BuildUpdateBookPayload(librarianUpdateBookBody string) (*librarian.UpdateBo
 	{
 		err = json.Unmarshal([]byte(librarianUpdateBookBody), &body)
 		if err != nil {
-			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"94b\",\n      \"book_cover\": \"op\",\n      \"id\": 5920727773572055287,\n      \"published_at\": \"1972-12-20\",\n      \"title\": \"2\"\n   }'")
+			return nil, fmt.Errorf("invalid JSON for body, \nerror: %s, \nexample of valid JSON:\n%s", err, "'{\n      \"author\": \"iae\",\n      \"book_cover\": \"yd\",\n      \"id\": 3737986959803916148,\n      \"published_at\": \"1984-06-22\",\n      \"title\": \"7p\"\n   }'")
 		}
 		if body.ID != nil {
 			if *body.ID < 1 {

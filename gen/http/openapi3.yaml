@@ -20,11 +20,11 @@ paths:
                         schema:
                             $ref: '#/components/schemas/UpdateBookRequestBody'
                         example:
-                            author: 94b
-                            book_cover: op
-                            id: 5920727773572055287
-                            published_at: "1972-12-20"
-                            title: "2"
+                            author: iae
+                            book_cover: yd
+                            id: 3737986959803916148
+                            published_at: "1984-06-22"
+                            title: 7p
             responses:
                 "200":
                     description: OK response.
@@ -33,11 +33,11 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Updatebookresponse'
                             example:
-                                author: Sint suscipit autem.
-                                book_cover: Et perferendis doloribus rerum vitae at id.
-                                id: 433367765525243458
-                                published_at: Est illum quis exercitationem aperiam natus.
-                                title: Quod aut nihil nesciunt blanditiis recusandae molestias.
+                                author: Quis exercitationem aperiam natus ex ut eius.
+                                book_cover: Officia cum.
+                                id: 4738134945310011743
+                                published_at: Illum optio illum laborum.
+                                title: Facere est.
         post:
             tags:
                 - librarian
@@ -51,10 +51,10 @@ paths:
                         schema:
                             $ref: '#/components/schemas/CreateBookRequestBody'
                         example:
-                            author: 17n
-                            book_cover: l8
-                            published_at: "1999-02-14"
-                            title: e0
+                            author: 3ew
+                            book_cover: a3
+                            published_at: "2006-04-23"
+                            title: u5h
             responses:
                 "200":
                     description: OK response.
@@ -63,11 +63,29 @@ paths:
                             schema:
                                 $ref: '#/components/schemas/Createbookresponse'
                             example:
-                                author: Velit sit quis numquam aspernatur molestiae.
-                                book_cover: Consequuntur minima earum.
-                                id: 3521883182131032859
-                                published_at: Qui eveniet quia.
-                                title: Et in consectetur totam.
+                                author: In excepturi eum quidem.
+                                book_cover: Ducimus illo.
+                                id: 2170896141689332134
+                                published_at: Qui temporibus porro.
+                                title: Et qui eveniet quia dignissimos.
+                "400":
+                    description: 'bad_request: Bad request.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                "404":
+                    description: 'not_found: Book not found.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                "500":
+                    description: 'internal_server_error: Something went wrong on our end.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
     /book/{id}:
         delete:
             tags:
@@ -83,9 +101,9 @@ paths:
                   schema:
                     type: integer
                     description: Book id
-                    example: 8671389531151817975
+                    example: 4149870819408375207
                     format: int64
-                  example: 3792528279807343999
+                  example: 2895839916197079994
             responses:
                 "204":
                     description: No Content response.
@@ -103,9 +121,9 @@ paths:
                   schema:
                     type: integer
                     description: The ID of the book.
-                    example: 803983059747621496
+                    example: 2391497454911028169
                     minimum: 1
-                  example: 517088234167279133
+                  example: 8550902560728935145
             responses:
                 "200":
                     description: OK response.
@@ -119,6 +137,18 @@ paths:
                                 id: 2881518213516787023
                                 published_at: Et autem earum harum occaecati sit eligendi.
                                 title: Deleniti eligendi.
+                "404":
+                    description: 'not_found: Book not found.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
+                "500":
+                    description: 'internal_server_error: Something went wrong on our end.'
+                    content:
+                        application/vnd.goa.error:
+                            schema:
+                                $ref: '#/components/schemas/Error'
     /books/{skip}/{take}:
         get:
             tags:
@@ -134,9 +164,9 @@ paths:
                   schema:
                     type: integer
                     description: The numbers of records to skip before return.
-                    example: 5575987020207916261
+                    example: 2254756687303605562
                     minimum: 0
-                  example: 7765743731959460325
+                  example: 6120965720051311882
                 - name: take
                   in: path
                   description: The numbers of records to return.
@@ -144,9 +174,9 @@ paths:
                   schema:
                     type: integer
                     description: The numbers of records to return.
-                    example: 6296177713048552717
+                    example: 1627303056175334685
                     minimum: 1
-                  example: 5445189832620645871
+                  example: 2479121212557680619
             responses:
                 "200":
                     description: OK response.
@@ -183,31 +213,31 @@ components:
                 author:
                     type: string
                     description: The author of the book.
-                    example: obu
+                    example: vm8
                     minLength: 3
                     maxLength: 100
                 book_cover:
                     type: string
                     description: The URL to the cover image.
-                    example: s
+                    example: iq
                     minLength: 1
                     maxLength: 2048
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: "1987-03-10"
+                    example: "1980-09-12"
                     format: date
                 title:
                     type: string
                     description: The title of the book.
-                    example: "5"
+                    example: "7"
                     minLength: 1
                     maxLength: 255
             example:
-                author: iwc
-                book_cover: z
-                published_at: "1992-05-04"
-                title: s0
+                author: nfr
+                book_cover: l5u
+                published_at: "1973-02-16"
+                title: "1"
             required:
                 - title
                 - author
@@ -219,66 +249,108 @@ components:
                 author:
                     type: string
                     description: The author of the book.
-                    example: Dolorem neque illo.
+                    example: Quaerat similique dignissimos consequatur rem reiciendis est.
                 book_cover:
                     type: string
                     description: The cover image of the book.
-                    example: Debitis sint est numquam ex at.
+                    example: Voluptas voluptas officia repudiandae.
                 id:
                     type: integer
                     description: The unique id of the book.
-                    example: 3307113812017478415
+                    example: 3496213243609987005
                     format: int64
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: Nihil consectetur et voluptatem et voluptatem.
+                    example: Numquam eveniet voluptatem.
                 title:
                     type: string
                     description: The title of the book.
-                    example: Rerum nesciunt sed.
+                    example: Dolorem enim impedit vitae rerum.
             example:
-                author: Maiores eum magni in ipsam.
-                book_cover: Ad nihil natus neque.
-                id: 8385126137979667061
-                published_at: Incidunt aut consequatur occaecati.
-                title: Enim deleniti omnis dolores similique.
+                author: Illo quas nam nisi aspernatur quia accusamus.
+                book_cover: Ut a eum pariatur et.
+                id: 3677391349535037876
+                published_at: Distinctio expedita voluptatem corporis necessitatibus voluptatem sit.
+                title: Nostrum consequuntur est omnis eos.
             required:
                 - id
                 - title
                 - book_cover
                 - author
                 - published_at
+        Error:
+            type: object
+            properties:
+                fault:
+                    type: boolean
+                    description: Is the error a server-side fault?
+                    example: true
+                id:
+                    type: string
+                    description: ID is a unique identifier for this particular occurrence of the problem.
+                    example: 123abc
+                message:
+                    type: string
+                    description: Message is a human-readable explanation specific to this occurrence of the problem.
+                    example: parameter 'p' must be an integer
+                name:
+                    type: string
+                    description: Name is the name of this class of errors.
+                    example: bad_request
+                temporary:
+                    type: boolean
+                    description: Is the error temporary?
+                    example: false
+                timeout:
+                    type: boolean
+                    description: Is the error a timeout?
+                    example: false
+            description: Book not found.
+            example:
+                fault: false
+                id: 123abc
+                message: parameter 'p' must be an integer
+                name: bad_request
+                temporary: false
+                timeout: true
+            required:
+                - name
+                - id
+                - message
+                - temporary
+                - timeout
+                - fault
         Getbookresponse:
             type: object
             properties:
                 author:
                     type: string
                     description: The author of the book.
-                    example: Inventore assumenda.
+                    example: Sequi aut et dolorem assumenda aut incidunt.
                 book_cover:
                     type: string
                     description: The cover image of the book.
-                    example: Maxime ad eius consequuntur.
+                    example: Maiores quibusdam rerum.
                 id:
                     type: integer
                     description: The unique id of the book.
-                    example: 1784372645376317652
+                    example: 4200751878607378735
                     format: int64
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: Libero vitae voluptatem qui debitis.
+                    example: Esse non nihil laudantium doloribus.
                 title:
                     type: string
                     description: The title of the book.
-                    example: Aliquam et culpa sunt aut.
+                    example: Eum dolor ipsa pariatur est totam.
             example:
-                author: Ullam sed sed.
-                book_cover: Eaque ratione.
-                id: 5311725847893351616
-                published_at: Harum cum.
-                title: Laboriosam fugit sequi facere error et.
+                author: Consequatur est et dolorum tempora.
+                book_cover: Laboriosam excepturi consequuntur.
+                id: 7568227567881514751
+                published_at: Quisquam quaerat nesciunt debitis doloremque.
+                title: Odio ut animi consequatur maxime culpa.
             required:
                 - id
                 - title
@@ -308,30 +380,30 @@ components:
                 author:
                     type: string
                     description: The author of the book.
-                    example: Dolor ipsa pariatur est.
+                    example: Sapiente dolorum non laborum amet fugit.
                 book_cover:
                     type: string
                     description: The cover image of the book.
-                    example: Tempora sequi aut et dolorem assumenda aut.
+                    example: Esse ab quam expedita expedita.
                 id:
                     type: integer
                     description: The unique id of the book.
-                    example: 9173575669321821314
+                    example: 6188783678488380386
                     format: int64
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: Omnis maiores.
+                    example: Ut sit.
                 title:
                     type: string
                     description: The title of the book.
-                    example: Et quo.
+                    example: Itaque ut dolores omnis.
             example:
-                author: Laudantium doloribus.
-                book_cover: Excepturi odio ut animi consequatur.
-                id: 5595262321692640013
-                published_at: Culpa ratione consequatur est et dolorum tempora.
-                title: Dolores esse non.
+                author: Exercitationem et ea nihil ut est cumque.
+                book_cover: Vel provident non voluptas nulla deserunt earum.
+                id: 1679967300450238648
+                published_at: Eligendi consequatur ut adipisci iusto voluptatem cumque.
+                title: Soluta voluptatibus molestias.
             required:
                 - id
                 - title
@@ -358,43 +430,48 @@ components:
                   id: 3171323111833809843
                   published_at: Ratione sapiente et provident dolorum amet labore.
                   title: Et cumque velit ut quo ut.
+                - author: Aut ut occaecati et et.
+                  book_cover: Sed tenetur qui quisquam qui.
+                  id: 3171323111833809843
+                  published_at: Ratione sapiente et provident dolorum amet labore.
+                  title: Et cumque velit ut quo ut.
         UpdateBookRequestBody:
             type: object
             properties:
                 author:
                     type: string
                     description: The author of the book.
-                    example: dnd
+                    example: 08j
                     minLength: 3
                     maxLength: 100
                 book_cover:
                     type: string
                     description: The URL to the cover image.
-                    example: i
+                    example: j
                     minLength: 1
                     maxLength: 2048
                 id:
                     type: integer
                     description: The unique id of the book.
-                    example: 7264870070144899124
+                    example: 589719622412451653
                     minimum: 1
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: "1984-05-06"
+                    example: "1999-05-20"
                     format: date
                 title:
                     type: string
                     description: The title of the book.
-                    example: j9
+                    example: c4t
                     minLength: 1
                     maxLength: 255
             example:
-                author: rff
-                book_cover: xw
-                id: 5357083602908013658
-                published_at: "1983-03-06"
-                title: d
+                author: "644"
+                book_cover: q
+                id: 3316863254156291152
+                published_at: "2012-07-04"
+                title: xtn
             required:
                 - title
                 - author
@@ -406,30 +483,30 @@ components:
                 author:
                     type: string
                     description: The author of the book.
-                    example: Est sunt.
+                    example: Voluptatem saepe eum quas temporibus consequatur libero.
                 book_cover:
                     type: string
                     description: The cover image of the book.
-                    example: Est eos culpa nihil quidem.
+                    example: Quisquam cumque magnam.
                 id:
                     type: integer
                     description: The unique id of the book.
-                    example: 8008908198875951311
+                    example: 4863680159661459335
                     format: int64
                 published_at:
                     type: string
                     description: The date at which the book was published.
-                    example: Nesciunt architecto aperiam non quia perferendis.
+                    example: Adipisci sit repellendus perspiciatis labore amet.
                 title:
                     type: string
                     description: The title of the book.
-                    example: Neque amet rerum explicabo deleniti possimus iste.
+                    example: Eos perferendis placeat expedita omnis voluptatibus sed.
             example:
-                author: Nesciunt incidunt reiciendis perspiciatis.
-                book_cover: Sit dolorem nobis aperiam veniam veniam.
-                id: 661423849706961713
-                published_at: Qui quos omnis minima.
-                title: Iure voluptatem cum quia expedita.
+                author: Et quasi quos sapiente.
+                book_cover: Est rerum illum quos.
+                id: 1150701072935834206
+                published_at: Exercitationem inventore est aperiam minima at.
+                title: Illo est perferendis.
             required:
                 - id
                 - title

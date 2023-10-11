@@ -17,6 +17,19 @@ var _ = API("librarian", func() {
 var _ = Service("librarian", func() {
 	Description("The books service performs CRUD operations on books.")
 
+	Error("internal_server_error", func() {
+		Description("Something went wrong on our end.")
+		Fault()
+	})
+	Error("bad_request", func() {
+		Description("Bad request.")
+		Fault()
+	})
+	Error("not_found", func() {
+		Description("Book not found.")
+		Fault()
+	})
+
 	// get a single book
 	Method("get-book", func() {
 		Description("Retrieve a book by id.")
@@ -26,6 +39,8 @@ var _ = Service("librarian", func() {
 
 		HTTP(func() {
 			GET("/book/{id}")
+			Response("not_found", StatusNotFound)
+			Response("internal_server_error", StatusInternalServerError)
 		})
 	})
 
@@ -49,6 +64,9 @@ var _ = Service("librarian", func() {
 		Result(CreateBookResponse)
 		HTTP(func() {
 			POST("/book")
+			Response("not_found", StatusNotFound)
+			Response("bad_request", StatusBadRequest)
+			Response("internal_server_error", StatusInternalServerError)
 		})
 	})
 
@@ -61,7 +79,6 @@ var _ = Service("librarian", func() {
 
 		HTTP(func() {
 			PATCH("/book")
-			// Body(Book)
 		})
 	})
 

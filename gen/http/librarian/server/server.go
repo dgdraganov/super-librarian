@@ -129,7 +129,7 @@ func NewGetBookHandler(
 	var (
 		decodeRequest  = DecodeGetBookRequest(mux, decoder)
 		encodeResponse = EncodeGetBookResponse(encoder)
-		encodeError    = goahttp.ErrorEncoder(encoder, formatter)
+		encodeError    = EncodeGetBookError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))
@@ -231,7 +231,7 @@ func NewCreateBookHandler(
 	var (
 		decodeRequest  = DecodeCreateBookRequest(mux, decoder)
 		encodeResponse = EncodeCreateBookResponse(encoder)
-		encodeError    = goahttp.ErrorEncoder(encoder, formatter)
+		encodeError    = EncodeCreateBookError(encoder, formatter)
 	)
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := context.WithValue(r.Context(), goahttp.AcceptTypeKey, r.Header.Get("Accept"))

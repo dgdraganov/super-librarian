@@ -47,6 +47,10 @@ func (c *Client) BuildGetBookRequest(ctx context.Context, v any) (*http.Request,
 // DecodeGetBookResponse returns a decoder for responses returned by the
 // librarian get-book endpoint. restoreBody controls whether the response body
 // should be restored after having been read.
+// DecodeGetBookResponse may return the following errors:
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "internal_server_error" (type *goa.ServiceError): http.StatusInternalServerError
+//   - error: internal error
 func DecodeGetBookResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -79,6 +83,34 @@ func DecodeGetBookResponse(decoder func(*http.Response) goahttp.Decoder, restore
 			}
 			res := librarian.NewGetbookresponse(vres)
 			return res, nil
+		case http.StatusNotFound:
+			var (
+				body GetBookNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("librarian", "get-book", err)
+			}
+			err = ValidateGetBookNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("librarian", "get-book", err)
+			}
+			return nil, NewGetBookNotFound(&body)
+		case http.StatusInternalServerError:
+			var (
+				body GetBookInternalServerErrorResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("librarian", "get-book", err)
+			}
+			err = ValidateGetBookInternalServerErrorResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("librarian", "get-book", err)
+			}
+			return nil, NewGetBookInternalServerError(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("librarian", "get-book", resp.StatusCode, string(body))
@@ -189,6 +221,11 @@ func EncodeCreateBookRequest(encoder func(*http.Request) goahttp.Encoder) func(*
 // DecodeCreateBookResponse returns a decoder for responses returned by the
 // librarian create-book endpoint. restoreBody controls whether the response
 // body should be restored after having been read.
+// DecodeCreateBookResponse may return the following errors:
+//   - "not_found" (type *goa.ServiceError): http.StatusNotFound
+//   - "bad_request" (type *goa.ServiceError): http.StatusBadRequest
+//   - "internal_server_error" (type *goa.ServiceError): http.StatusInternalServerError
+//   - error: internal error
 func DecodeCreateBookResponse(decoder func(*http.Response) goahttp.Decoder, restoreBody bool) func(*http.Response) (any, error) {
 	return func(resp *http.Response) (any, error) {
 		if restoreBody {
@@ -221,6 +258,48 @@ func DecodeCreateBookResponse(decoder func(*http.Response) goahttp.Decoder, rest
 			}
 			res := librarian.NewCreatebookresponse(vres)
 			return res, nil
+		case http.StatusNotFound:
+			var (
+				body CreateBookNotFoundResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("librarian", "create-book", err)
+			}
+			err = ValidateCreateBookNotFoundResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("librarian", "create-book", err)
+			}
+			return nil, NewCreateBookNotFound(&body)
+		case http.StatusBadRequest:
+			var (
+				body CreateBookBadRequestResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("librarian", "create-book", err)
+			}
+			err = ValidateCreateBookBadRequestResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("librarian", "create-book", err)
+			}
+			return nil, NewCreateBookBadRequest(&body)
+		case http.StatusInternalServerError:
+			var (
+				body CreateBookInternalServerErrorResponseBody
+				err  error
+			)
+			err = decoder(resp).Decode(&body)
+			if err != nil {
+				return nil, goahttp.ErrDecodingError("librarian", "create-book", err)
+			}
+			err = ValidateCreateBookInternalServerErrorResponseBody(&body)
+			if err != nil {
+				return nil, goahttp.ErrValidationError("librarian", "create-book", err)
+			}
+			return nil, NewCreateBookInternalServerError(&body)
 		default:
 			body, _ := io.ReadAll(resp.Body)
 			return nil, goahttp.ErrInvalidResponse("librarian", "create-book", resp.StatusCode, string(body))

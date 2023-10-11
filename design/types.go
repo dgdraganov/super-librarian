@@ -4,6 +4,14 @@ import (
 	. "goa.design/goa/v3/dsl"
 )
 
+var ErrorResponse = Type("ErrorResponse", func() {
+	Description("Error response.")
+	Attribute("message", String, "Error message response.", func() {
+		MinLength(1)
+	})
+	Required("message")
+})
+
 var UpdateBookPayload = Type("UpdateBookPayload", func() {
 	Description("A single book payload.")
 	Reference(CreateBookPayload)

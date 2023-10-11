@@ -11,6 +11,7 @@ import (
 	"context"
 
 	librarianviews "github.com/dgdraganov/super-librarian/gen/librarian/views"
+	goa "goa.design/goa/v3/pkg"
 )
 
 // The books service performs CRUD operations on books.
@@ -151,6 +152,21 @@ type Updatebookresponse struct {
 	BookCover string
 	// The date at which the book was published.
 	PublishedAt string
+}
+
+// MakeInternalServerError builds a goa.ServiceError from an error.
+func MakeInternalServerError(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "internal_server_error", false, false, true)
+}
+
+// MakeBadRequest builds a goa.ServiceError from an error.
+func MakeBadRequest(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "bad_request", false, false, true)
+}
+
+// MakeNotFound builds a goa.ServiceError from an error.
+func MakeNotFound(err error) *goa.ServiceError {
+	return goa.NewServiceError(err, "not_found", false, false, true)
 }
 
 // NewGetbookresponse initializes result type Getbookresponse from viewed

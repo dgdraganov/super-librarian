@@ -34,6 +34,11 @@ func NewClient(getBook, getBooks, createBook, updateBook, deleteBook goa.Endpoin
 }
 
 // GetBook calls the "get-book" endpoint of the "librarian" service.
+// GetBook may return the following errors:
+//   - "internal_server_error" (type *goa.ServiceError): Something went wrong on our end.
+//   - "bad_request" (type *goa.ServiceError): Bad request.
+//   - "not_found" (type *goa.ServiceError): Book not found.
+//   - error: internal error
 func (c *Client) GetBook(ctx context.Context, p *GetBookPayload) (res *Getbookresponse, err error) {
 	var ires any
 	ires, err = c.GetBookEndpoint(ctx, p)
@@ -44,6 +49,11 @@ func (c *Client) GetBook(ctx context.Context, p *GetBookPayload) (res *Getbookre
 }
 
 // GetBooks calls the "get-books" endpoint of the "librarian" service.
+// GetBooks may return the following errors:
+//   - "internal_server_error" (type *goa.ServiceError): Something went wrong on our end.
+//   - "bad_request" (type *goa.ServiceError): Bad request.
+//   - "not_found" (type *goa.ServiceError): Book not found.
+//   - error: internal error
 func (c *Client) GetBooks(ctx context.Context, p *GetBooksPayload) (res *Getbooksresponse, err error) {
 	var ires any
 	ires, err = c.GetBooksEndpoint(ctx, p)
@@ -54,6 +64,11 @@ func (c *Client) GetBooks(ctx context.Context, p *GetBooksPayload) (res *Getbook
 }
 
 // CreateBook calls the "create-book" endpoint of the "librarian" service.
+// CreateBook may return the following errors:
+//   - "internal_server_error" (type *goa.ServiceError): Something went wrong on our end.
+//   - "bad_request" (type *goa.ServiceError): Bad request.
+//   - "not_found" (type *goa.ServiceError): Book not found.
+//   - error: internal error
 func (c *Client) CreateBook(ctx context.Context, p *CreateBookPayload) (res *Createbookresponse, err error) {
 	var ires any
 	ires, err = c.CreateBookEndpoint(ctx, p)
@@ -64,6 +79,11 @@ func (c *Client) CreateBook(ctx context.Context, p *CreateBookPayload) (res *Cre
 }
 
 // UpdateBook calls the "update-book" endpoint of the "librarian" service.
+// UpdateBook may return the following errors:
+//   - "internal_server_error" (type *goa.ServiceError): Something went wrong on our end.
+//   - "bad_request" (type *goa.ServiceError): Bad request.
+//   - "not_found" (type *goa.ServiceError): Book not found.
+//   - error: internal error
 func (c *Client) UpdateBook(ctx context.Context, p *UpdateBookPayload) (res *Updatebookresponse, err error) {
 	var ires any
 	ires, err = c.UpdateBookEndpoint(ctx, p)
@@ -74,6 +94,11 @@ func (c *Client) UpdateBook(ctx context.Context, p *UpdateBookPayload) (res *Upd
 }
 
 // DeleteBook calls the "delete-book" endpoint of the "librarian" service.
+// DeleteBook may return the following errors:
+//   - "internal_server_error" (type *goa.ServiceError): Something went wrong on our end.
+//   - "bad_request" (type *goa.ServiceError): Bad request.
+//   - "not_found" (type *goa.ServiceError): Book not found.
+//   - error: internal error
 func (c *Client) DeleteBook(ctx context.Context, p *DeleteBookPayload) (err error) {
 	_, err = c.DeleteBookEndpoint(ctx, p)
 	return
