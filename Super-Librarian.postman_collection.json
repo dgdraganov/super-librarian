@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "313de39b-9d92-4092-86ad-76a54fbf0111",
+		"name": "Super-Librarian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6165361"
+	},
+	"item": [
+		{
+			"name": "localhost:9205/book",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9205/book/2",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"book",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:9205/books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9205/books/0/20",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"books",
+						"0",
+						"20"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:9205/book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"The Martian\",\n    \"author\": \"Andy Weir\",\n    \"book_cover\": \"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.goodreads.com%2Fbook%2Fshow%2F18007564-the-martian&psig=AOvVaw0pHCf_yO-cNmFch0B39M9n&ust=1697135934531000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCMjcrJbS7oEDFQAAAAAdAAAAABAE\",\n    \"published_at\": \"2011-06-06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9205/book",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:9205/book",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 2,\n    \"title\": \"Alice's Adventures in Wonderland\",\n    \"author\": \"Lewis Carroll\",\n    \"book_cover\": \"https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.simonandschuster.com%2Fbooks%2FAlices-Adventures-in-Wonderland%2FLewis-Carroll%2FAladdin-Classics%2F9781665925778&psig=AOvVaw3P9jSbl9ZQmjFUiz0au2Ss&ust=1697136109880000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCIjvrIrT7oEDFQAAAAAdAAAAABAE\",\n    \"published_at\": \"1865-11-06\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9205/book",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:9205/book/1",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:9205/book/3",
+					"host": [
+						"localhost"
+					],
+					"port": "9205",
+					"path": [
+						"book",
+						"3"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

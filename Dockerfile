@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-# RUN go mod download
+RUN go mod download
 RUN go build -o ./bin/librarian cmd/librarian/*.go \
  && go build -o ./bin/migrator cmd/migrator/*.go
 

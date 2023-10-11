@@ -14,33 +14,20 @@ import (
 
 	librarianapi "github.com/dgdraganov/super-librarian"
 	librarian "github.com/dgdraganov/super-librarian/gen/librarian"
-	"github.com/dgdraganov/super-librarian/internal/model"
 	"github.com/dgdraganov/super-librarian/internal/storage/repo"
+	"github.com/dgdraganov/super-librarian/pkg/config"
 )
 
 func main() {
 
-	// appConfig, err := config.NewServiceConfig()
-	// if err != nil {
-	// 	panic(fmt.Errorf("new service config: %w", err))
-	// }
-
-	// dbConfig, err := config.NewDatabaseConfig()
-	// if err != nil {
-	// 	panic(fmt.Errorf("new db config: %w", err))
-	// }
-
-	appConfig := model.ServiceConfig{
-		AppEnv:   "DEBUG",
-		HttpPort: "9205",
-		Host:     "localhost",
+	appConfig, err := config.NewServiceConfig()
+	if err != nil {
+		panic(fmt.Errorf("new service config: %w", err))
 	}
-	dbConfig := model.MySqlConfig{
-		Username: "docker",
-		Password: "mysql_docker_password",
-		Host:     "localhost",
-		Port:     "3306",
-		DbName:   "library",
+
+	dbConfig, err := config.NewDatabaseConfig()
+	if err != nil {
+		panic(fmt.Errorf("new db config: %w", err))
 	}
 
 	// Setup logger. Replace logger with your own log package of choice.
