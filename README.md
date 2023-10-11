@@ -4,15 +4,15 @@
 
 A simple API for CRUD operations on books. In order to achieve that the service exposes 5 endpoints:
 
-GET     /book/{id}
+`GET     /book/{id}`
 
-GET     /books/{skip}/{take}
+`GET     /books/{skip}/{take}`
 
-POST    /book
+`POST    /book`
 
-PATCH   /book
+`PATCH   /book`
 
-DELETE  /book/{id}
+`DELETE  /book/{id}`
 
 
 ## How to run?
